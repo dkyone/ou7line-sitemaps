@@ -22,10 +22,10 @@ def _token(client_id: str, client_secret: str) -> str:
 
 
 def _parse_url(url: str) -> tuple[str, str]:
-    """Return (type, id) where type is 'track' or 'album'."""
+    """Return (type, id) where type is 'track', 'album', or 'playlist'."""
     for pattern in [
-        r"spotify\.com/(track|album)/([A-Za-z0-9]+)",
-        r"spotify:(track|album):([A-Za-z0-9]+)",
+        r"spotify\.com/(track|album|playlist)/([A-Za-z0-9]+)",
+        r"spotify:(track|album|playlist):([A-Za-z0-9]+)",
     ]:
         m = re.search(pattern, url)
         if m:
@@ -64,6 +64,43 @@ def get_track_info(url: str, client_id: str, client_secret: str) -> dict:
         }
 
     raise ValueError(f"Unsupported Spotify resource type: {kind!r}")
+
+
+def get_playlist_tracks(url: str, client_id: str, client_secret: str) -> list[dict]:
+    """Return all tracks from a Spotify playlist, handling pagination."""
+    _, playlist_id = _parse_url(url)
+    token   = _token(client_id, client_secret)
+    headers = {"Authorization": f"Bearer {token}"}
+
+    tracks = []
+    endpoint: str | None = (
+        f"{SPOTIFY_API_BASE}/playlists/{playlist_id}/tracks"
+        "?limit=100&fields=next,items(track(name,duration_ms,artists,album(name,images)))"
+    )
+
+    while endpoint:
+        resp = requests.get(endpoint, headers=headers, timeout=15)
+        resp.raise_for_status()
+        page = resp.json()
+
+        for item in page.get("items", []):
+            t = item.get("track")
+            if not t or not t.get("name"):
+                continue  # skip local / unavailable tracks
+            images = t.get("album", {}).get("images", [])
+            if not images:
+                continue
+            tracks.append({
+                "title":       t["name"],
+                "artist":      ", ".join(a["name"] for a in t.get("artists", [])),
+                "album":       t.get("album", {}).get("name", ""),
+                "duration_ms": t.get("duration_ms", 180_000),
+                "cover_url":   images[0]["url"],
+            })
+
+        endpoint = page.get("next")
+
+    return tracks
 
 
 def download_cover(url: str) -> bytes:
