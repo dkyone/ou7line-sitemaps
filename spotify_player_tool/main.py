@@ -12,7 +12,7 @@ from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
-from renderer import generate_all_styles
+from renderer import generate_all_styles, generate_vertical_styles
 from spotify_client import download_cover, get_track_info
 
 load_dotenv()
@@ -45,6 +45,7 @@ app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
 class GenerateRequest(BaseModel):
     url: str
+    format: str = "horizontal"  # "horizontal" or "vertical"
 
 
 @app.get("/")
@@ -90,8 +91,12 @@ async def generate(req: GenerateRequest):
         raise HTTPException(status_code=502, detail=f"Cover download failed: {exc}") from exc
 
     try:
-        images = generate_all_styles(track, cover_bytes)
-        logger.info(f"Generated {len(images)} image styles")
+        if req.format == "vertical":
+            images = generate_vertical_styles(track, cover_bytes)
+            logger.info(f"Generated {len(images)} vertical image styles")
+        else:
+            images = generate_all_styles(track, cover_bytes)
+            logger.info(f"Generated {len(images)} horizontal image styles")
     except Exception as exc:
         logger.error(f"Image generation failed: {exc}")
         raise HTTPException(status_code=500, detail=f"Image generation failed: {exc}") from exc
@@ -114,9 +119,9 @@ async def generate(req: GenerateRequest):
 
 
 @app.get("/download/{style}")
-async def download(style: str, url: str):
-    """Direct download endpoint — ?url=<spotify_url>&style=dark|light|blur|gradient"""
-    logger.info(f"Download request: style={style}, url={url}")
+async def download(style: str, url: str, format: str = "horizontal"):
+    """Direct download endpoint — ?url=<spotify_url>&style=dark|light|blur|gradient&format=horizontal|vertical"""
+    logger.info(f"Download request: style={style}, format={format}, url={url}")
 
     client_id     = os.getenv("SPOTIFY_CLIENT_ID", "").strip()
     client_secret = os.getenv("SPOTIFY_CLIENT_SECRET", "").strip()
@@ -132,8 +137,13 @@ async def download(style: str, url: str):
     try:
         track       = get_track_info(url, client_id, client_secret)
         cover_bytes = download_cover(track["cover_url"])
-        images      = generate_all_styles(track, cover_bytes)
-        logger.info(f"Successfully generated {style} image for: {track['title']}")
+
+        if format == "vertical":
+            images = generate_vertical_styles(track, cover_bytes)
+        else:
+            images = generate_all_styles(track, cover_bytes)
+
+        logger.info(f"Successfully generated {format}/{style} image for: {track['title']}")
     except ValueError as exc:
         logger.warning(f"Invalid Spotify URL for download: {url}")
         raise HTTPException(status_code=400, detail=str(exc)) from exc

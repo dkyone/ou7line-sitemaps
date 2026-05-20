@@ -22,4 +22,5 @@ build/
 output/
 output_playlist/
 output_track/
+output_formats/
 .DS_Store

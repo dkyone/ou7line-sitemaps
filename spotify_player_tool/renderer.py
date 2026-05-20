@@ -7,12 +7,20 @@ from typing import List, Optional, Tuple
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
+ACCENT = (29, 185, 84)  # Spotify green
+
+# Горизонтальный формат (16:9)
 CANVAS_W, CANVAS_H = 1200, 630
 ART_X, ART_Y, ART_SIZE = 70, 95, 440
 TEXT_X, TEXT_MAX_X = 575, 1150
 TEXT_W = TEXT_MAX_X - TEXT_X
 
-ACCENT = (29, 185, 84)  # Spotify green
+# Вертикальный формат (9:16)
+VERTICAL_W, VERTICAL_H = 540, 960
+VERTICAL_ART_Y = 120
+VERTICAL_ART_SIZE = 380
+VERTICAL_TEXT_Y = 520
+VERTICAL_PADDING = 40
 
 FONT_BOLD = "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf"
 FONT_REG  = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf"
@@ -290,6 +298,123 @@ def _draw_player(canvas: Image.Image, cover: Image.Image, track: dict, theme: Th
     draw.text((TEXT_X, CANVAS_H - 55), "Spotify", font=fn_brand, fill=(*ACCENT, 255))
 
 
+def _draw_player_vertical(canvas: Image.Image, cover: Image.Image, track: dict, theme: Theme):
+    draw = ImageDraw.Draw(canvas, "RGBA")
+
+    # Card overlay for blur/gradient
+    if theme.card:
+        draw.rounded_rectangle(
+            [20, VERTICAL_TEXT_Y - 20, VERTICAL_W - 20, VERTICAL_H - 60],
+            radius=20,
+            fill=theme.card,
+        )
+
+    # Album art centered at top
+    art = _rounded_art(cover, VERTICAL_ART_SIZE, 24)
+    art_x = (VERTICAL_W - VERTICAL_ART_SIZE) // 2
+    canvas.alpha_composite(art, (art_x, VERTICAL_ART_Y))
+
+    # Track title
+    fn_title = _font(32, bold=True)
+    title = _truncate(draw, track["title"], fn_title, VERTICAL_W - VERTICAL_PADDING * 2)
+    title_y = VERTICAL_TEXT_Y
+    draw.text((VERTICAL_PADDING, title_y), title, font=fn_title, fill=(*theme.title, 255))
+
+    # Artist
+    fn_artist = _font(20)
+    artist = _truncate(draw, track["artist"], fn_artist, VERTICAL_W - VERTICAL_PADDING * 2)
+    draw.text((VERTICAL_PADDING, title_y + 50), artist, font=fn_artist, fill=(*theme.artist, 255))
+
+    # Album
+    fn_album = _font(16)
+    album = _truncate(draw, track["album"], fn_album, VERTICAL_W - VERTICAL_PADDING * 2)
+    draw.text((VERTICAL_PADDING, title_y + 85), album, font=fn_album, fill=(*theme.album_c, 255))
+
+    # Progress bar
+    BAR_Y = title_y + 130
+    BAR_H = 4
+    PROGRESS = 0.40
+    bar_end = VERTICAL_PADDING + int((VERTICAL_W - VERTICAL_PADDING * 2) * PROGRESS)
+
+    draw.rounded_rectangle(
+        [VERTICAL_PADDING, BAR_Y, VERTICAL_W - VERTICAL_PADDING, BAR_Y + BAR_H],
+        radius=2,
+        fill=(*theme.bar_bg, 255),
+    )
+    draw.rounded_rectangle(
+        [VERTICAL_PADDING, BAR_Y, bar_end, BAR_Y + BAR_H],
+        radius=2,
+        fill=(*ACCENT, 255),
+    )
+
+    # Time labels
+    fn_time = _font(14)
+    total_ms = track.get("duration_ms", 180000)
+    current_ms = int(total_ms * PROGRESS)
+
+    def fmt(ms: int) -> str:
+        s = ms // 1000
+        return f"{s // 60}:{s % 60:02d}"
+
+    draw.text((VERTICAL_PADDING, BAR_Y + 10), fmt(current_ms), font=fn_time, fill=(*theme.time_c, 255))
+    total_str = fmt(total_ms)
+    tw = int(draw.textlength(total_str, font=fn_time))
+    draw.text((VERTICAL_W - VERTICAL_PADDING - tw, BAR_Y + 10), total_str, font=fn_time, fill=(*theme.time_c, 255))
+
+    # Controls
+    CTRL_Y = BAR_Y + 50
+    ctrl_cx = VERTICAL_W // 2
+    spacing = 50
+    dim_color = tuple(max(0, int(c * 0.55)) for c in theme.controls)
+
+    _draw_shuffle(draw, ctrl_cx - spacing * 1.5, CTRL_Y, 10, dim_color)
+    _draw_prev(draw, ctrl_cx - spacing * 0.5, CTRL_Y, 12, theme.controls)
+    _draw_play(draw, ctrl_cx + spacing * 0.5, CTRL_Y, 25, theme.controls, theme.play_inner)
+    _draw_next(draw, ctrl_cx + spacing * 1.5, CTRL_Y, 12, theme.controls)
+
+    # Spotify branding
+    fn_brand = _font(14, bold=True)
+    draw.text((VERTICAL_PADDING, VERTICAL_H - 30), "Spotify", font=fn_brand, fill=(*ACCENT, 255))
+
+
+def _blur_background_vertical(cover: Image.Image) -> Image.Image:
+    scale = max(VERTICAL_W / cover.width, VERTICAL_H / cover.height)
+    nw = int(cover.width * scale) + 2
+    nh = int(cover.height * scale) + 2
+    bg = cover.resize((nw, nh), Image.LANCZOS).convert("RGB")
+    left = (nw - VERTICAL_W) // 2
+    top = (nh - VERTICAL_H) // 2
+    bg = bg.crop((left, top, left + VERTICAL_W, top + VERTICAL_H))
+    bg = bg.filter(ImageFilter.GaussianBlur(radius=30))
+    dark = Image.new("RGB", (VERTICAL_W, VERTICAL_H), (0, 0, 0))
+    return Image.blend(bg, dark, alpha=0.40)
+
+
+def _gradient_background_vertical(colors: List[Tuple[int, int, int]]) -> Image.Image:
+    def darken(c: tuple, f: float) -> tuple:
+        return tuple(max(0, int(v * f)) for v in c)
+
+    c1 = darken(colors[0], 0.52)
+    c2 = darken(colors[1] if len(colors) > 1 else colors[0], 0.38)
+
+    img = Image.new("RGB", (VERTICAL_W, VERTICAL_H))
+    draw = ImageDraw.Draw(img)
+    for y in range(VERTICAL_H):
+        t = y / (VERTICAL_H - 1)
+        color = tuple(int(c1[i] * (1 - t) + c2[i] * t) for i in range(3))
+        draw.line([(0, y), (VERTICAL_W, y)], fill=color)
+    return img
+
+
+def _render_vertical(background: Image.Image, cover: Image.Image, track: dict, theme: Theme) -> bytes:
+    canvas = background.convert("RGBA")
+    _draw_player_vertical(canvas, cover, track, theme)
+    result = canvas.convert("RGB")
+    buf = io.BytesIO()
+    result.save(buf, format="JPEG", quality=95, optimize=True)
+    return buf.getvalue()
+
+
 def _render(background: Image.Image, cover: Image.Image, track: dict, theme: Theme) -> bytes:
     canvas = background.convert("RGBA")
     _draw_player(canvas, cover, track, theme)
@@ -308,4 +433,16 @@ def generate_all_styles(track: dict, cover_bytes: bytes) -> dict[str, bytes]:
         "light":    _render(Image.new("RGB", (CANVAS_W, CANVAS_H), LIGHT.bg), cover, track, LIGHT),
         "blur":     _render(_blur_background(cover),                            cover, track, BLUR),
         "gradient": _render(_gradient_background(colors),                       cover, track, GRADIENT),
+    }
+
+
+def generate_vertical_styles(track: dict, cover_bytes: bytes) -> dict[str, bytes]:
+    cover = Image.open(io.BytesIO(cover_bytes)).convert("RGB")
+    colors = _extract_dominant_colors(cover)
+
+    return {
+        "dark":     _render_vertical(Image.new("RGB", (VERTICAL_W, VERTICAL_H), DARK.bg),  cover, track, DARK),
+        "light":    _render_vertical(Image.new("RGB", (VERTICAL_W, VERTICAL_H), LIGHT.bg), cover, track, LIGHT),
+        "blur":     _render_vertical(_blur_background_vertical(cover),                       cover, track, BLUR),
+        "gradient": _render_vertical(_gradient_background_vertical(colors),                  cover, track, GRADIENT),
     }
