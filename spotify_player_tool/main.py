@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import base64
+import logging
 import os
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import FileResponse, Response, StreamingResponse
+from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
@@ -15,7 +17,27 @@ from spotify_client import download_cover, get_track_info
 
 load_dotenv()
 
-app = FastAPI(title="Spotify Player Image Tool")
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+)
+logger = logging.getLogger(__name__)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    logger.info("🎵 Spotify Player Image Tool starting up...")
+    logger.info("API documentation available at: http://localhost:8000/docs")
+    yield
+    logger.info("Spotify Player Image Tool shutting down")
+
+
+app = FastAPI(
+    title="Spotify Player Image Tool",
+    description="Generate Spotify player card images with album art and track info",
+    version="1.0.0",
+    lifespan=lifespan,
+)
 
 STATIC_DIR = Path(__file__).parent / "static"
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
@@ -32,15 +54,19 @@ async def index():
 
 @app.get("/health")
 async def health():
+    logger.debug("Health check")
     return {"ok": True}
 
 
 @app.post("/generate")
 async def generate(req: GenerateRequest):
+    logger.info(f"Generate request for URL: {req.url}")
+
     client_id     = os.getenv("SPOTIFY_CLIENT_ID", "").strip()
     client_secret = os.getenv("SPOTIFY_CLIENT_SECRET", "").strip()
 
     if not client_id or not client_secret:
+        logger.error("Spotify credentials not configured")
         raise HTTPException(
             status_code=503,
             detail="SPOTIFY_CLIENT_ID and SPOTIFY_CLIENT_SECRET are not configured.",
@@ -48,17 +74,27 @@ async def generate(req: GenerateRequest):
 
     try:
         track = get_track_info(req.url, client_id, client_secret)
+        logger.info(f"Track found: {track['title']} by {track['artist']}")
     except ValueError as exc:
+        logger.warning(f"Invalid Spotify URL: {req.url}")
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except Exception as exc:
+        logger.error(f"Spotify API error: {exc}")
         raise HTTPException(status_code=502, detail=f"Spotify API error: {exc}") from exc
 
     try:
         cover_bytes = download_cover(track["cover_url"])
+        logger.info(f"Cover downloaded: {len(cover_bytes)} bytes")
     except Exception as exc:
+        logger.error(f"Cover download failed: {exc}")
         raise HTTPException(status_code=502, detail=f"Cover download failed: {exc}") from exc
 
-    images = generate_all_styles(track, cover_bytes)
+    try:
+        images = generate_all_styles(track, cover_bytes)
+        logger.info(f"Generated {len(images)} image styles")
+    except Exception as exc:
+        logger.error(f"Image generation failed: {exc}")
+        raise HTTPException(status_code=500, detail=f"Image generation failed: {exc}") from exc
 
     def b64(data: bytes) -> str:
         return "data:image/jpeg;base64," + base64.b64encode(data).decode()
@@ -80,22 +116,29 @@ async def generate(req: GenerateRequest):
 @app.get("/download/{style}")
 async def download(style: str, url: str):
     """Direct download endpoint — ?url=<spotify_url>&style=dark|light|blur|gradient"""
+    logger.info(f"Download request: style={style}, url={url}")
+
     client_id     = os.getenv("SPOTIFY_CLIENT_ID", "").strip()
     client_secret = os.getenv("SPOTIFY_CLIENT_SECRET", "").strip()
 
     if not client_id or not client_secret:
+        logger.error("Spotify credentials not configured for download")
         raise HTTPException(status_code=503, detail="Spotify credentials not configured.")
 
     if style not in ("dark", "light", "blur", "gradient"):
+        logger.warning(f"Invalid style requested: {style}")
         raise HTTPException(status_code=400, detail="style must be dark | light | blur | gradient")
 
     try:
         track       = get_track_info(url, client_id, client_secret)
         cover_bytes = download_cover(track["cover_url"])
         images      = generate_all_styles(track, cover_bytes)
+        logger.info(f"Successfully generated {style} image for: {track['title']}")
     except ValueError as exc:
+        logger.warning(f"Invalid Spotify URL for download: {url}")
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except Exception as exc:
+        logger.error(f"Download generation error: {exc}")
         raise HTTPException(status_code=502, detail=str(exc)) from exc
 
     safe_title = "".join(c if c.isalnum() or c in " -_" else "_" for c in track["title"])[:60]
