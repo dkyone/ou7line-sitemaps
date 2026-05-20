@@ -62,7 +62,7 @@ pip install -r requirements.txt
 
 ## 🚀 Использование
 
-### Веб-приложение
+### Веб-приложение (локально)
 
 Запустите FastAPI сервер:
 
@@ -127,6 +127,48 @@ SPOTIFY_CLIENT_ID=xxx SPOTIFY_CLIENT_SECRET=yyy \
 ```
 
 Изображения сохраняются в папку `output/<playlist_id>/`
+
+### Запуск в Docker
+
+Если у вас установлен Docker и Docker Compose:
+
+```bash
+# Запуск с docker-compose
+docker-compose up
+
+# Или через docker напрямую
+docker build -t spotify-player .
+docker run -e SPOTIFY_CLIENT_ID=xxx -e SPOTIFY_CLIENT_SECRET=yyy \
+    -p 8000:8000 spotify-player
+```
+
+### Быстрые команды (Makefile)
+
+Для удобства разработки используются команды Make:
+
+```bash
+# Установка зависимостей
+make install          # Установить основные зависимости
+make install-dev      # Установить зависимости для разработки
+
+# Разработка
+make dev             # Запустить dev сервер с auto-reload
+make run             # Запустить production сервер
+
+# Тестирование и качество кода
+make test            # Запустить тесты
+make test-cov        # Тесты с покрытием кода
+make lint            # Проверить код (flake8)
+make format          # Форматировать код (black)
+make format-check    # Проверить форматирование
+
+# Batch обработка
+make batch URL=https://... STYLE=all
+
+# Очистка
+make clean           # Удалить кэш и сгенерированные файлы
+make help            # Показать все доступные команды
+```
 
 ## 🏗️ Структура проекта
 
