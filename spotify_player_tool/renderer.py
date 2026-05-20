@@ -11,7 +11,7 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 ACCENT = (30, 215, 96)   # Spotify green #1ED760
 
 # ── Resolutions ───────────────────────────────────────────────────────────────
-VW, VH   = 1080, 1920   # vertical   9:16
+VW, VH   = 1080, 1440   # vertical   3:4
 HW, HH   = 1920, 1080   # horizontal 16:9
 SW, SH   = 1080, 1080   # square     1:1
 
@@ -280,35 +280,34 @@ def _draw_info(draw: ImageDraw.ImageDraw,
     draw.text((bar_x1 - rw, bar_y + bar_h + 14), rem_str,    font=fn_time, fill=(*theme.time_c, 255))
 
 
-# ── Vertical  1080 × 1920 ────────────────────────────────────────────────────
+# ── Vertical  1080 × 1440  (3:4) ─────────────────────────────────────────────
 
 def _draw_vertical(canvas: Image.Image, cover: Image.Image,
                    track: dict, theme: Theme):
     draw  = ImageDraw.Draw(canvas, "RGBA")
     W, H  = VW, VH
-    PAD   = 60
+    PAD   = 60                        # equal on all four sides
 
-    # art
-    ART_SIZE = W - PAD * 2
+    ART_SIZE = W - PAD * 2            # 960 px — equal left/right/top margin
     art = _rounded_art(cover, ART_SIZE, 22)
-    canvas.alpha_composite(art, (PAD, 160))
+    canvas.alpha_composite(art, (PAD, PAD))
 
-    INFO_Y = 160 + ART_SIZE + 56
+    INFO_Y = PAD + ART_SIZE + 36      # 60 + 960 + 36 = 1056
     TEXT_W = W - PAD * 2
 
-    fn_title  = _font(72, 700)
-    fn_artist = _font(48, 400)
-    fn_time   = _font(38, 400)
+    fn_title  = _font(60, 700)
+    fn_artist = _font(40, 400)
+    fn_time   = _font(30, 400)
 
     _draw_info(draw, track, theme,
                text_x=PAD, text_y=INFO_Y, text_w=TEXT_W,
                fn_title=fn_title, fn_artist=fn_artist, fn_time=fn_time,
                bar_x0=PAD, bar_x1=W - PAD,
-               bar_y=INFO_Y + 200, bar_h=6, dot_r=14)
+               bar_y=INFO_Y + 140, bar_h=6, dot_r=13)
 
     _draw_controls(draw,
-                   ctrl_cx=W // 2, ctrl_cy=INFO_Y + 390,
-                   spacing=190, play_r=62, s_icon=22,
+                   ctrl_cx=W // 2, ctrl_cy=INFO_Y + 268,
+                   spacing=165, play_r=52, s_icon=19,
                    theme=theme, lw=5)
 
 
@@ -344,36 +343,77 @@ def _draw_horizontal(canvas: Image.Image, cover: Image.Image,
                    theme=theme, lw=5)
 
 
-# ── Square  1080 × 1080 ──────────────────────────────────────────────────────
+# ── Square  1080 × 1080  (full-art + gradient overlay) ───────────────────────
+
+def _make_square_art_canvas(cover: Image.Image, style: str,
+                             colors: List[Tuple[int, int, int]]) -> Image.Image:
+    """Full-canvas cover art with a bottom-to-top gradient overlay."""
+    W, H = SW, SH
+
+    # scale cover to fill the whole canvas
+    scale = max(W / cover.width, H / cover.height)
+    nw, nh = int(cover.width * scale), int(cover.height * scale)
+    bg = cover.resize((nw, nh), Image.LANCZOS).convert("RGB")
+    bg = bg.crop(((nw - W) // 2, (nh - H) // 2,
+                   (nw - W) // 2 + W, (nh - H) // 2 + H))
+
+    if style == "blur":
+        bg = bg.filter(ImageFilter.GaussianBlur(radius=28))
+
+    canvas = bg.convert("RGBA")
+
+    # bottom-to-top gradient overlay
+    grad  = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    gd    = ImageDraw.Draw(grad)
+    START = int(H * 0.35)             # gradient begins 35% from top
+
+    for y in range(START, H):
+        t = (y - START) / (H - START - 1)   # 0 → 1 top-to-bottom
+
+        if style == "light":
+            alpha = int(210 * t)
+            gd.line([(0, y), (W, y)], fill=(245, 245, 245, alpha))
+        elif style == "gradient":
+            c1 = colors[0]
+            c2 = colors[1] if len(colors) > 1 else colors[0]
+            def dk(c, f): return tuple(max(0, int(v * f)) for v in c)
+            col = tuple(int(dk(c1, 0.55)[i] * (1 - t) + dk(c2, 0.35)[i] * t)
+                        for i in range(3))
+            alpha = int(215 * t)
+            gd.line([(0, y), (W, y)], fill=(*col, alpha))
+        else:                          # dark / blur
+            alpha = int(230 * t)
+            gd.line([(0, y), (W, y)], fill=(0, 0, 0, alpha))
+
+    canvas.alpha_composite(grad)
+    return canvas
+
 
 def _draw_square(canvas: Image.Image, cover: Image.Image,
                  track: dict, theme: Theme):
-    draw  = ImageDraw.Draw(canvas, "RGBA")
-    W, H  = SW, SH
-    PAD   = 54
+    """Draw player UI on a square canvas that already has art + gradient bg."""
+    draw = ImageDraw.Draw(canvas, "RGBA")
+    W, H = SW, SH
+    PAD  = 54
 
-    # art: ~60% of height so controls fit below
-    ART_SIZE = 620
-    ART_X    = (W - ART_SIZE) // 2
-    ART_Y    = PAD
-    art = _rounded_art(cover, ART_SIZE, 20)
-    canvas.alpha_composite(art, (ART_X, ART_Y))
+    # anchor everything from the bottom
+    BOTTOM   = H - PAD            # 1026
+    ctrl_cy  = BOTTOM - 58        # 968
+    bar_y    = ctrl_cy  - 128     # 840
+    INFO_Y   = bar_y    - 155     # 685
 
-    INFO_Y = ART_Y + ART_SIZE + 44    # ~718
-    TEXT_W = W - PAD * 2
-
-    fn_title  = _font(56, 700)
-    fn_artist = _font(38, 400)
-    fn_time   = _font(30, 400)
+    fn_title  = _font(54, 700)
+    fn_artist = _font(36, 400)
+    fn_time   = _font(28, 400)
 
     _draw_info(draw, track, theme,
-               text_x=PAD, text_y=INFO_Y, text_w=TEXT_W,
+               text_x=PAD, text_y=INFO_Y, text_w=W - PAD * 2,
                fn_title=fn_title, fn_artist=fn_artist, fn_time=fn_time,
                bar_x0=PAD, bar_x1=W - PAD,
-               bar_y=INFO_Y + 160, bar_h=5, dot_r=11)
+               bar_y=bar_y, bar_h=5, dot_r=11)
 
     _draw_controls(draw,
-                   ctrl_cx=W // 2, ctrl_cy=INFO_Y + 300,
+                   ctrl_cx=W // 2, ctrl_cy=ctrl_cy,
                    spacing=148, play_r=48, s_icon=17,
                    theme=theme, lw=4)
 
@@ -414,5 +454,19 @@ def generate_all_styles(track: dict, cover_bytes: bytes) -> dict[str, bytes]:
 
 def generate_square_styles(track: dict, cover_bytes: bytes) -> dict[str, bytes]:
     cover  = Image.open(io.BytesIO(cover_bytes)).convert("RGB")
-    return _all_themes(_draw_square, cover, track,
-                       _extract_dominant_colors(cover), SW, SH)
+    colors = _extract_dominant_colors(cover)
+
+    style_theme = {
+        "dark":     (DARK,  "dark"),
+        "light":    (LIGHT, "light"),
+        "blur":     (DARK,  "blur"),
+        "gradient": (DARK,  "gradient"),
+    }
+    result: dict[str, bytes] = {}
+    for name, (theme, style) in style_theme.items():
+        canvas = _make_square_art_canvas(cover, style, colors)
+        _draw_square(canvas, cover, track, theme)
+        buf = io.BytesIO()
+        canvas.convert("RGB").save(buf, format="JPEG", quality=97, optimize=True)
+        result[name] = buf.getvalue()
+    return result
