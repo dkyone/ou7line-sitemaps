@@ -64,6 +64,14 @@ LIGHT = Theme(
     bar_track=(200, 200, 200),
 )
 
+# For square format: art fills canvas so progress bar needs to be light enough to read
+DARK_PHOTO = Theme(
+    text1=(255, 255, 255), text2=(215, 215, 215), time_c=(190, 190, 190),
+    btn=(255, 255, 255), dim=(175, 175, 175),
+    play_fg=(255, 255, 255), play_tri=(18, 18, 18),
+    bar_track=(200, 200, 200),
+)
+
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 def _truncate(draw: ImageDraw.ImageDraw, text: str, font, max_w: int) -> str:
@@ -147,27 +155,36 @@ def _arrowhead(draw: ImageDraw.ImageDraw, tip_x: int, tip_y: int,
 def _icon_shuffle(draw: ImageDraw.ImageDraw,
                   cx: int, cy: int, s: int, color: tuple, lw: int = 4):
     """Two crossing diagonals (X-shape) both pointing right, Spotify-style."""
-    hs = int(s * 0.42)
+    hs  = int(s * 0.50)    # wider X for visibility
+    tip = lw + 7
 
-    # ── Lower diagonal: top-left → bottom-right ──
+    def _line_to_tip(x0, y0, x1, y1, angle):
+        """Draw line stopping short so arrowhead sits cleanly at tip."""
+        ca, sa = math.cos(angle), math.sin(angle)
+        draw.line([(x0, y0), (x1 - int(tip * ca), y1 - int(tip * sa))],
+                  fill=color, width=lw)
+        _arrowhead(draw, x1, y1, angle, tip, color)
+
+    # ── Arrow A: top-left → bottom-right ──
     ax0, ay0 = cx - s, cy - hs
     ax1, ay1 = cx + s, cy + hs
-    draw.line([(ax0, ay0), (ax1, ay1)], fill=color, width=lw)
-    _arrowhead(draw, ax1, ay1, math.atan2(ay1 - ay0, ax1 - ax0), lw + 5, color)
+    ang_a = math.atan2(ay1 - ay0, ax1 - ax0)
+    _line_to_tip(ax0, ay0, ax1, ay1, ang_a)
 
-    # ── Upper diagonal: bottom-left → top-right  (gapped at center) ──
+    # ── Arrow B: bottom-left → top-right  (gapped at crossing center) ──
     bx0, by0 = cx - s, cy + hs
     bx1, by1 = cx + s, cy - hs
-    ang = math.atan2(by1 - by0, bx1 - bx0)
-    cos_a, sin_a = math.cos(ang), math.sin(ang)
-    gap = lw + 5
-    # left segment
-    draw.line([(bx0, by0), (cx - int(gap * cos_a), cy - int(gap * sin_a))],
+    ang_b = math.atan2(by1 - by0, bx1 - bx0)
+    cb, sb = math.cos(ang_b), math.sin(ang_b)
+    gap = lw * 2 + 6
+    # left half: from origin to gap before center
+    draw.line([(bx0, by0), (cx - int(gap * cb), cy - int(gap * sb))],
               fill=color, width=lw)
-    # right segment
-    draw.line([(cx + int(gap * cos_a), cy + int(gap * sin_a)), (bx1, by1)],
+    # right half: from gap after center, stopping short for tip
+    p2x = cx + int(gap * cb);  p2y = cy + int(gap * sb)
+    draw.line([(p2x, p2y), (bx1 - int(tip * cb), by1 - int(tip * sb))],
               fill=color, width=lw)
-    _arrowhead(draw, bx1, by1, ang, lw + 5, color)
+    _arrowhead(draw, bx1, by1, ang_b, tip, color)
 
 
 def _icon_prev(draw: ImageDraw.ImageDraw,
@@ -197,37 +214,35 @@ def _icon_play(draw: ImageDraw.ImageDraw,
 
 def _icon_repeat(draw: ImageDraw.ImageDraw,
                  cx: int, cy: int, s: int, color: tuple, lw: int = 4):
-    """Rounded-rectangle loop — Spotify repeat icon."""
-    w  = int(s * 1.9)
-    h  = int(s * 1.3)
-    r  = int(s * 0.45)           # corner radius
+    """Rounded-rectangle clockwise loop — Spotify repeat icon."""
+    w   = int(s * 1.9)
+    h   = int(s * 1.3)
+    r   = int(s * 0.45)
+    tip = lw + 6
 
     l  = cx - w // 2
     ri = cx + w // 2
     t  = cy - h // 2
     b  = cy + h // 2
 
-    # top edge  (→)
-    draw.line([(l + r, t), (ri - r, t)],   fill=color, width=lw)
-    # right-top arc
-    draw.arc( [ri - 2*r, t, ri, t + 2*r],  start=270, end=0,   fill=color, width=lw)
-    # right edge (↓)
+    # top edge → : stop short so arrowhead sits cleanly at the corner
+    draw.line([(l + r, t), (ri - r - tip, t)], fill=color, width=lw)
+    # arrowhead at end of top edge pointing RIGHT  ←this is where direction shows
+    _arrowhead(draw, ri - r, t, math.radians(0), tip, color)
+    # top-right arc
+    draw.arc([ri - 2*r, t, ri, t + 2*r],   start=270, end=0,   fill=color, width=lw)
+    # right edge ↓
     draw.line([(ri, t + r), (ri, b - r)],  fill=color, width=lw)
-    # right-bottom arc
-    draw.arc( [ri - 2*r, b - 2*r, ri, b],  start=0,   end=90,  fill=color, width=lw)
-    # bottom edge (←)
+    # bottom-right arc
+    draw.arc([ri - 2*r, b - 2*r, ri, b],   start=0,   end=90,  fill=color, width=lw)
+    # bottom edge ←
     draw.line([(l + r, b), (ri - r, b)],   fill=color, width=lw)
-    # left-bottom arc
-    draw.arc( [l, b - 2*r, l + 2*r, b],    start=90,  end=180, fill=color, width=lw)
-    # left edge (↑)
+    # bottom-left arc
+    draw.arc([l, b - 2*r, l + 2*r, b],     start=90,  end=180, fill=color, width=lw)
+    # left edge ↑
     draw.line([(l, t + r), (l, b - r)],    fill=color, width=lw)
-    # left-top arc
-    draw.arc( [l, t, l + 2*r, t + 2*r],    start=180, end=270, fill=color, width=lw)
-
-    # arrowhead on bottom-right pointing right
-    ax = ri - r
-    ay = b
-    _arrowhead(draw, ax, ay, math.radians(-90), lw + 5, color)
+    # top-left arc
+    draw.arc([l, t, l + 2*r, t + 2*r],     start=180, end=270, fill=color, width=lw)
 
 
 def _progress_bar(draw: ImageDraw.ImageDraw,
@@ -457,10 +472,10 @@ def generate_square_styles(track: dict, cover_bytes: bytes) -> dict[str, bytes]:
     colors = _extract_dominant_colors(cover)
 
     style_theme = {
-        "dark":     (DARK,  "dark"),
-        "light":    (LIGHT, "light"),
-        "blur":     (DARK,  "blur"),
-        "gradient": (DARK,  "gradient"),
+        "dark":     (DARK_PHOTO, "dark"),
+        "light":    (LIGHT,      "light"),
+        "blur":     (DARK_PHOTO, "blur"),
+        "gradient": (DARK_PHOTO, "gradient"),
     }
     result: dict[str, bytes] = {}
     for name, (theme, style) in style_theme.items():
