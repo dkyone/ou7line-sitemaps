@@ -109,14 +109,16 @@ def _extract_dominant_colors(img: Image.Image) -> List[Tuple[int, int, int]]:
     small = img.resize((80, 80), Image.LANCZOS).convert("RGB")
     quantized = small.quantize(colors=8)
     palette = quantized.getpalette()
-    colors = [(palette[i * 3], palette[i * 3 + 1], palette[i * 3 + 2]) for i in range(8)]
+
+    num_colors = min(8, len(palette) // 3)
+    colors = [(palette[i * 3], palette[i * 3 + 1], palette[i * 3 + 2]) for i in range(num_colors)]
 
     def score(c: tuple) -> float:
         r, g, b = c
         return (max(r, g, b) - min(r, g, b)) * 0.65 + (r + g + b) / 3 * 0.35
 
     colors.sort(key=score, reverse=True)
-    return colors[:3]
+    return colors[:3] if colors else [(128, 128, 128)]
 
 
 def _blur_background(cover: Image.Image) -> Image.Image:
