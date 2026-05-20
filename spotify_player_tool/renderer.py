@@ -238,15 +238,15 @@ def _draw_vertical(canvas: Image.Image, cover: Image.Image,
     INFO_Y = PAD + ART_SIZE + 36      # 60 + 960 + 36 = 1056
     TEXT_W = W - PAD * 2
 
-    fn_title  = _font(60, 700)
-    fn_artist = _font(40, 400)
-    fn_time   = _font(30, 400)
+    fn_title  = _font(72, 700)
+    fn_artist = _font(52, 400)
+    fn_time   = _font(38, 400)
 
     _draw_info(draw, track, theme,
                text_x=PAD, text_y=INFO_Y, text_w=TEXT_W,
                fn_title=fn_title, fn_artist=fn_artist, fn_time=fn_time,
                bar_x0=PAD, bar_x1=W - PAD,
-               bar_y=INFO_Y + 140, bar_h=6, dot_r=13)
+               bar_y=INFO_Y + 165, bar_h=6, dot_r=13)
 
     _draw_controls(canvas, draw,
                    ctrl_cx=W // 2, ctrl_cy=INFO_Y + 268,
@@ -343,11 +343,11 @@ def _draw_square(canvas: Image.Image, cover: Image.Image,
     BOTTOM   = H - PAD            # 1026
     ctrl_cy  = BOTTOM - 58        # 968
     bar_y    = ctrl_cy  - 128     # 840
-    INFO_Y   = bar_y    - 155     # 685
+    INFO_Y   = bar_y    - 175     # 665
 
-    fn_title  = _font(54, 700)
-    fn_artist = _font(36, 400)
-    fn_time   = _font(28, 400)
+    fn_title  = _font(68, 700)
+    fn_artist = _font(46, 400)
+    fn_time   = _font(34, 400)
 
     _draw_info(draw, track, theme,
                text_x=PAD, text_y=INFO_Y, text_w=W - PAD * 2,
