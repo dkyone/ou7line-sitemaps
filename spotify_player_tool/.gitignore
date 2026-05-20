@@ -20,7 +20,5 @@ build/
 
 # Project
 output/
-output_playlist/
-output_track/
-output_formats/
+output_*/
 .DS_Store
