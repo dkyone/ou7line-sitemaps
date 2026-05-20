@@ -1,3 +1,23 @@
 __pycache__/
 *.pyc
 .env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Python
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# Project
+output/
+.DS_Store
