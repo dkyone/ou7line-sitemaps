@@ -12,7 +12,7 @@ from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
-from renderer import generate_all_styles, generate_vertical_styles
+from renderer import generate_all_styles, generate_vertical_styles, generate_square_styles
 from spotify_client import download_cover, get_track_info
 
 load_dotenv()
@@ -93,10 +93,11 @@ async def generate(req: GenerateRequest):
     try:
         if req.format == "vertical":
             images = generate_vertical_styles(track, cover_bytes)
-            logger.info(f"Generated {len(images)} vertical image styles")
+        elif req.format == "square":
+            images = generate_square_styles(track, cover_bytes)
         else:
             images = generate_all_styles(track, cover_bytes)
-            logger.info(f"Generated {len(images)} horizontal image styles")
+        logger.info(f"Generated {len(images)} {req.format} image styles")
     except Exception as exc:
         logger.error(f"Image generation failed: {exc}")
         raise HTTPException(status_code=500, detail=f"Image generation failed: {exc}") from exc
@@ -140,6 +141,8 @@ async def download(style: str, url: str, format: str = "horizontal"):
 
         if format == "vertical":
             images = generate_vertical_styles(track, cover_bytes)
+        elif format == "square":
+            images = generate_square_styles(track, cover_bytes)
         else:
             images = generate_all_styles(track, cover_bytes)
 
