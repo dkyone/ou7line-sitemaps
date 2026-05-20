@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import io
-import math
 from dataclasses import dataclass
 from typing import List, Tuple
 
@@ -137,55 +136,6 @@ def _light_bg(w: int, h: int) -> Image.Image:
 
 # ── Icons ─────────────────────────────────────────────────────────────────────
 
-def _arrowhead(draw: ImageDraw.ImageDraw, tip_x: int, tip_y: int,
-               angle_rad: float, size: int, color: tuple):
-    """Draw filled arrowhead pointing toward (tip_x, tip_y) at given angle."""
-    back = size
-    side = size * 0.55
-    cos_a, sin_a = math.cos(angle_rad), math.sin(angle_rad)
-    bx = tip_x - int(back * cos_a)
-    by = tip_y - int(back * sin_a)
-    lx = int(bx - side * sin_a)
-    ly = int(by + side * cos_a)
-    rx = int(bx + side * sin_a)
-    ry = int(by - side * cos_a)
-    draw.polygon([(tip_x, tip_y), (lx, ly), (rx, ry)], fill=color)
-
-
-def _icon_shuffle(draw: ImageDraw.ImageDraw,
-                  cx: int, cy: int, s: int, color: tuple, lw: int = 4):
-    """Two crossing diagonals (X-shape) both pointing right, Spotify-style."""
-    hs  = int(s * 0.50)    # wider X for visibility
-    tip = lw + 7
-
-    def _line_to_tip(x0, y0, x1, y1, angle):
-        """Draw line stopping short so arrowhead sits cleanly at tip."""
-        ca, sa = math.cos(angle), math.sin(angle)
-        draw.line([(x0, y0), (x1 - int(tip * ca), y1 - int(tip * sa))],
-                  fill=color, width=lw)
-        _arrowhead(draw, x1, y1, angle, tip, color)
-
-    # ── Arrow A: top-left → bottom-right ──
-    ax0, ay0 = cx - s, cy - hs
-    ax1, ay1 = cx + s, cy + hs
-    ang_a = math.atan2(ay1 - ay0, ax1 - ax0)
-    _line_to_tip(ax0, ay0, ax1, ay1, ang_a)
-
-    # ── Arrow B: bottom-left → top-right  (gapped at crossing center) ──
-    bx0, by0 = cx - s, cy + hs
-    bx1, by1 = cx + s, cy - hs
-    ang_b = math.atan2(by1 - by0, bx1 - bx0)
-    cb, sb = math.cos(ang_b), math.sin(ang_b)
-    gap = lw * 2 + 6
-    # left half: from origin to gap before center
-    draw.line([(bx0, by0), (cx - int(gap * cb), cy - int(gap * sb))],
-              fill=color, width=lw)
-    # right half: from gap after center, stopping short for tip
-    p2x = cx + int(gap * cb);  p2y = cy + int(gap * sb)
-    draw.line([(p2x, p2y), (bx1 - int(tip * cb), by1 - int(tip * sb))],
-              fill=color, width=lw)
-    _arrowhead(draw, bx1, by1, ang_b, tip, color)
-
 
 def _icon_prev(draw: ImageDraw.ImageDraw,
                cx: int, cy: int, s: int, color: tuple, lw: int = 4):
@@ -201,48 +151,27 @@ def _icon_next(draw: ImageDraw.ImageDraw,
     draw.rectangle([cx + s - lw, cy - h, cx + s + 2, cy + h], fill=color)
 
 
-def _icon_play(draw: ImageDraw.ImageDraw,
-               cx: int, cy: int, r: int, fg: tuple, tri: tuple):
-    draw.ellipse([cx - r, cy - r, cx + r, cy + r], fill=fg)
-    ts = int(r * 0.38)
-    draw.polygon([
-        (cx - int(ts * 0.65), cy - ts),
-        (cx - int(ts * 0.65), cy + ts),
-        (cx + ts + 3,         cy),
-    ], fill=tri)
+def _icon_play(canvas: Image.Image, cx: int, cy: int, r: int,
+               fg: tuple, tri: tuple):
+    """Anti-aliased play button via 4× supersampling."""
+    SCALE  = 4
+    margin = 2
+    side   = (r + margin) * 2
+    tmp    = Image.new("RGBA", (side * SCALE, side * SCALE), (0, 0, 0, 0))
+    td     = ImageDraw.Draw(tmp)
+    scx    = side * SCALE // 2
+    scy    = side * SCALE // 2
+    sr     = r * SCALE
+    td.ellipse([scx - sr, scy - sr, scx + sr, scy + sr], fill=(*fg, 255))
+    ts = int(sr * 0.38)
+    td.polygon([
+        (scx - int(ts * 0.65), scy - ts),
+        (scx - int(ts * 0.65), scy + ts),
+        (scx + ts + SCALE * 3,  scy),
+    ], fill=(*tri, 255))
+    tmp = tmp.resize((side, side), Image.LANCZOS)
+    canvas.alpha_composite(tmp, (cx - r - margin, cy - r - margin))
 
-
-def _icon_repeat(draw: ImageDraw.ImageDraw,
-                 cx: int, cy: int, s: int, color: tuple, lw: int = 4):
-    """Rounded-rectangle clockwise loop — Spotify repeat icon."""
-    w   = int(s * 1.9)
-    h   = int(s * 1.3)
-    r   = int(s * 0.45)
-    tip = lw + 6
-
-    l  = cx - w // 2
-    ri = cx + w // 2
-    t  = cy - h // 2
-    b  = cy + h // 2
-
-    # top edge → : stop short so arrowhead sits cleanly at the corner
-    draw.line([(l + r, t), (ri - r - tip, t)], fill=color, width=lw)
-    # arrowhead at end of top edge pointing RIGHT  ←this is where direction shows
-    _arrowhead(draw, ri - r, t, math.radians(0), tip, color)
-    # top-right arc
-    draw.arc([ri - 2*r, t, ri, t + 2*r],   start=270, end=0,   fill=color, width=lw)
-    # right edge ↓
-    draw.line([(ri, t + r), (ri, b - r)],  fill=color, width=lw)
-    # bottom-right arc
-    draw.arc([ri - 2*r, b - 2*r, ri, b],   start=0,   end=90,  fill=color, width=lw)
-    # bottom edge ←
-    draw.line([(l + r, b), (ri - r, b)],   fill=color, width=lw)
-    # bottom-left arc
-    draw.arc([l, b - 2*r, l + 2*r, b],     start=90,  end=180, fill=color, width=lw)
-    # left edge ↑
-    draw.line([(l, t + r), (l, b - r)],    fill=color, width=lw)
-    # top-left arc
-    draw.arc([l, t, l + 2*r, t + 2*r],     start=180, end=270, fill=color, width=lw)
 
 
 def _progress_bar(draw: ImageDraw.ImageDraw,
@@ -258,14 +187,13 @@ def _progress_bar(draw: ImageDraw.ImageDraw,
 
 # ── Shared drawing logic ──────────────────────────────────────────────────────
 
-def _draw_controls(draw: ImageDraw.ImageDraw, ctrl_cx: int, ctrl_cy: int,
+def _draw_controls(canvas: Image.Image, draw: ImageDraw.ImageDraw,
+                   ctrl_cx: int, ctrl_cy: int,
                    spacing: int, play_r: int, s_icon: int,
                    theme: Theme, lw: int = 5):
-    _icon_shuffle(draw, ctrl_cx - spacing * 2, ctrl_cy, s_icon, theme.dim, lw)
-    _icon_prev   (draw, ctrl_cx - spacing,     ctrl_cy, int(s_icon * 1.3), theme.btn, lw)
-    _icon_play   (draw, ctrl_cx,               ctrl_cy, play_r, theme.play_fg, theme.play_tri)
-    _icon_next   (draw, ctrl_cx + spacing,     ctrl_cy, int(s_icon * 1.3), theme.btn, lw)
-    _icon_repeat (draw, ctrl_cx + spacing * 2, ctrl_cy, s_icon, theme.dim, lw)
+    _icon_prev(draw,   ctrl_cx - spacing, ctrl_cy, int(s_icon * 1.3), theme.btn, lw)
+    _icon_play(canvas, ctrl_cx,           ctrl_cy, play_r, theme.play_fg, theme.play_tri)
+    _icon_next(draw,   ctrl_cx + spacing, ctrl_cy, int(s_icon * 1.3), theme.btn, lw)
 
 
 def _draw_info(draw: ImageDraw.ImageDraw,
@@ -320,7 +248,7 @@ def _draw_vertical(canvas: Image.Image, cover: Image.Image,
                bar_x0=PAD, bar_x1=W - PAD,
                bar_y=INFO_Y + 140, bar_h=6, dot_r=13)
 
-    _draw_controls(draw,
+    _draw_controls(canvas, draw,
                    ctrl_cx=W // 2, ctrl_cy=INFO_Y + 268,
                    spacing=165, play_r=52, s_icon=19,
                    theme=theme, lw=5)
@@ -352,7 +280,7 @@ def _draw_horizontal(canvas: Image.Image, cover: Image.Image,
                bar_x0=RX, bar_x1=RX + RW,
                bar_y=VMID + 20, bar_h=6, dot_r=13)
 
-    _draw_controls(draw,
+    _draw_controls(canvas, draw,
                    ctrl_cx=RX + RW // 2, ctrl_cy=VMID + 165,
                    spacing=145, play_r=56, s_icon=20,
                    theme=theme, lw=5)
@@ -427,7 +355,7 @@ def _draw_square(canvas: Image.Image, cover: Image.Image,
                bar_x0=PAD, bar_x1=W - PAD,
                bar_y=bar_y, bar_h=5, dot_r=11)
 
-    _draw_controls(draw,
+    _draw_controls(canvas, draw,
                    ctrl_cx=W // 2, ctrl_cy=ctrl_cy,
                    spacing=148, play_r=48, s_icon=17,
                    theme=theme, lw=4)
