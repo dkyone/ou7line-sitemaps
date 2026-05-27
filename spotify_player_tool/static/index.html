@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spotify Player Card Generator</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:  #1db954;
+      --green2: #1ed760;
+      --bg:     #121212;
+      --surface:#181818;
+      --card:   #242424;
+      --border: #333;
+      --text:   #fff;
+      --muted:  #b3b3b3;
+      --radius: 12px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header ── */
+    header {
+      padding: 24px 40px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      width: 36px; height: 36px;
+      background: var(--green);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo svg { width: 20px; height: 20px; fill: #000; }
+    header h1 { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.3px; }
+    header p  { font-size: 0.82rem; color: var(--muted); margin-top: 2px; }
+
+    /* ── Main ── */
+    main {
+      flex: 1;
+      padding: 48px 40px;
+      max-width: 960px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* ── Input form ── */
+    .input-group {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+    .input-wrap {
+      flex: 1;
+      position: relative;
+    }
+    .input-wrap svg {
+      position: absolute;
+      left: 16px; top: 50%;
+      transform: translateY(-50%);
+      width: 18px; height: 18px;
+      fill: var(--muted);
+      pointer-events: none;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 16px 16px 16px 46px;
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color .2s;
+    }
+    input[type="text"]:focus { border-color: var(--green); }
+    input[type="text"]::placeholder { color: var(--muted); }
+
+    button.generate-btn {
+      padding: 16px 32px;
+      background: var(--green);
+      color: #000;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background .15s, transform .1s;
+    }
+    button.generate-btn:hover  { background: var(--green2); }
+    button.generate-btn:active { transform: scale(0.97); }
+    button.generate-btn:disabled {
+      background: #3d3d3d;
+      color: #888;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ── Error / info banners ── */
+    .banner {
+      padding: 14px 18px;
+      border-radius: var(--radius);
+      font-size: 0.88rem;
+      margin-bottom: 28px;
+      display: none;
+    }
+    .banner.error   { background: #3b1515; border: 1px solid #b54040; color: #ff8080; }
+    .banner.info    { background: #1a2b1a; border: 1px solid var(--green); color: #8ee89b; }
+    .banner.visible { display: block; }
+
+    /* ── Track meta pill ── */
+    .track-meta {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 20px;
+      background: var(--surface);
+      border-radius: var(--radius);
+      margin-bottom: 32px;
+      border: 1px solid var(--border);
+    }
+    .track-meta.visible { display: flex; }
+    .track-meta .dot {
+      width: 10px; height: 10px;
+      background: var(--green);
+      border-radius: 50%;
+      flex-shrink: 0;
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: .5; transform: scale(0.8); }
+    }
+    .track-meta .meta-text strong { font-size: 0.95rem; }
+    .track-meta .meta-text span   { font-size: 0.82rem; color: var(--muted); margin-left: 8px; }
+
+    /* ── Cards grid ── */
+    .cards-heading {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .cards-heading.visible { display: block; }
+
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,.5);
+    }
+
+    .card-img-wrap {
+      position: relative;
+      width: 100%;
+      padding-top: 52.5%;  /* 630/1200 aspect ratio */
+      background: #0e0e0e;
+      overflow: hidden;
+    }
+    .card-img-wrap img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .card-img-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: #444;
+      font-size: 0.8rem;
+    }
+    .card-img-placeholder svg { width: 40px; height: 40px; fill: #333; }
+
+    .card-footer {
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .style-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .download-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: transparent;
+      border: 1.5px solid var(--green);
+      color: var(--green);
+      font-size: 0.82rem;
+      font-weight: 700;
+      border-radius: 20px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .15s, color .15s;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .download-btn.ready {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .download-btn:hover { background: var(--green); color: #000; }
+    .download-btn svg { width: 13px; height: 13px; }
+
+    /* ── Loading spinner ── */
+    .spinner {
+      display: inline-block;
+      width: 18px; height: 18px;
+      border: 2.5px solid rgba(0,0,0,.3);
+      border-top-color: #000;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      main { padding: 28px 20px; }
+      .input-group { flex-direction: column; }
+      .cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <svg viewBox="0 0 168 168" xmlns="http://www.w3.org/2000/svg">
+      <path d="M84 0C37.6 0 0 37.6 0 84s37.6 84 84 84 84-37.6 84-84S130.4 0 84 0zm38.5 121.2c-1.5 2.5-4.8 3.3-7.3 1.7-20-12.2-45.2-15-74.9-8.2-2.9.7-5.8-1.1-6.5-4-.7-2.9 1.1-5.8 4-6.5 32.4-7.4 60.3-4.2 82.8 9.5 2.5 1.6 3.3 4.9 1.7 7.4zm10.3-22.8c-2 3.2-6.1 4.2-9.3 2.3-22.9-14.1-57.8-18.2-84.9-9.9-3.3 1-6.8-.8-7.8-4.1-1-3.3.8-6.8 4.1-7.8 31-9.4 69.5-4.8 95.7 11.3 3.2 1.9 4.2 6.1 2.2 9.2zm.9-23.7c-27.4-16.3-72.7-17.8-98.9-9.8-4.2 1.3-8.6-1.1-9.8-5.3-1.3-4.2 1.1-8.6 5.3-9.8 30-9.1 79.9-7.3 111.4 11.3 3.8 2.2 5 7.1 2.8 10.9-2.2 3.7-7.1 5-10.8 2.7z"/>
+    </svg>
+  </div>
+  <div>
+    <h1>Spotify Player Card Generator</h1>
+    <p>Paste a Spotify track or album link — get a ready-to-share player image in 4 styles</p>
+  </div>
+</header>
+
+<main>
+  <div class="input-group">
+    <div class="input-wrap">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
+      </svg>
+      <input
+        type="text"
+        id="spotify-url"
+        placeholder="https://open.spotify.com/track/…"
+        autocomplete="off"
+        spellcheck="false"
+      />
+    </div>
+    <button class="generate-btn" id="gen-btn" onclick="generate()">Generate</button>
+  </div>
+
+  <div class="banner error" id="error-banner"></div>
+  <div class="banner info"  id="info-banner"></div>
+
+  <div class="track-meta" id="track-meta">
+    <div class="dot"></div>
+    <div class="meta-text">
+      <strong id="meta-title">—</strong>
+      <span id="meta-artist">—</span>
+    </div>
+    <span style="margin-left:auto;font-size:.8rem;color:var(--muted)" id="meta-duration"></span>
+  </div>
+
+  <div class="cards-heading" id="cards-heading">Generated styles</div>
+
+  <div class="cards">
+    <div class="card" id="card-dark">
+      <div class="card-img-wrap">
+        <div class="card-img-placeholder">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 14H6v-2h12v2zm0-4H6v-2h12v2zm0-4H6V7h12v2z"/></svg>
+          Dark theme
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="style-label">Dark</span>
+        <a class="download-btn" id="dl-dark" download>
+          <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+    <div class="card" id="card-light">
+      <div class="card-img-wrap">
+        <div class="card-img-placeholder">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 14H6v-2h12v2zm0-4H6v-2h12v2zm0-4H6V7h12v2z"/></svg>
+          Light theme
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="style-label">Light</span>
+        <a class="download-btn" id="dl-light" download>
+          <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+    <div class="card" id="card-blur">
+      <div class="card-img-wrap">
+        <div class="card-img-placeholder">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 14H6v-2h12v2zm0-4H6v-2h12v2zm0-4H6V7h12v2z"/></svg>
+          Blur background
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="style-label">Blur</span>
+        <a class="download-btn" id="dl-blur" download>
+          <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+    <div class="card" id="card-gradient">
+      <div class="card-img-wrap">
+        <div class="card-img-placeholder">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 14H6v-2h12v2zm0-4H6v-2h12v2zm0-4H6V7h12v2z"/></svg>
+          Gradient background
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="style-label">Gradient</span>
+        <a class="download-btn" id="dl-gradient" download>
+          <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+          Download
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  const urlInput = document.getElementById('spotify-url');
+  const genBtn   = document.getElementById('gen-btn');
+
+  urlInput.addEventListener('keydown', e => { if (e.key === 'Enter') generate(); });
+
+  function showError(msg) {
+    const el = document.getElementById('error-banner');
+    el.textContent = msg;
+    el.classList.add('visible');
+    document.getElementById('info-banner').classList.remove('visible');
+  }
+
+  function showInfo(msg) {
+    const el = document.getElementById('info-banner');
+    el.textContent = msg;
+    el.classList.add('visible');
+    document.getElementById('error-banner').classList.remove('visible');
+  }
+
+  function clearBanners() {
+    document.getElementById('error-banner').classList.remove('visible');
+    document.getElementById('info-banner').classList.remove('visible');
+  }
+
+  function setImage(style, dataUrl, title) {
+    const wrap = document.querySelector(`#card-${style} .card-img-wrap`);
+    wrap.innerHTML = `<img src="${dataUrl}" alt="${style} style" loading="lazy" />`;
+
+    const dl = document.getElementById(`dl-${style}`);
+    dl.href = dataUrl;
+    dl.download = `${title.replace(/[^a-z0-9]/gi, '_')}_${style}.jpg`;
+    dl.classList.add('ready');
+  }
+
+  function resetCards() {
+    ['dark','light','blur','gradient'].forEach(s => {
+      const wrap = document.querySelector(`#card-${s} .card-img-wrap`);
+      const labels = { dark:'Dark theme', light:'Light theme', blur:'Blur background', gradient:'Gradient background' };
+      wrap.innerHTML = `
+        <div class="card-img-placeholder">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 14H6v-2h12v2zm0-4H6v-2h12v2zm0-4H6V7h12v2z"/></svg>
+          ${labels[s]}
+        </div>`;
+      document.getElementById(`dl-${s}`).classList.remove('ready');
+    });
+    document.getElementById('track-meta').classList.remove('visible');
+    document.getElementById('cards-heading').classList.remove('visible');
+  }
+
+  async function generate() {
+    const url = urlInput.value.trim();
+    if (!url) { showError('Please paste a Spotify track or album URL.'); return; }
+
+    clearBanners();
+    resetCards();
+    genBtn.disabled = true;
+    genBtn.innerHTML = '<span class="spinner"></span>Generating…';
+
+    try {
+      const resp = await fetch('/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url }),
+      });
+
+      const data = await resp.json();
+
+      if (!resp.ok) {
+        showError(data.detail || 'Something went wrong. Check Spotify credentials or URL.');
+        return;
+      }
+
+      // Show track info
+      document.getElementById('meta-title').textContent   = data.track.title;
+      document.getElementById('meta-artist').textContent  = `by ${data.track.artist}`;
+      document.getElementById('meta-duration').textContent = data.track.duration;
+      document.getElementById('track-meta').classList.add('visible');
+      document.getElementById('cards-heading').classList.add('visible');
+
+      // Populate cards
+      for (const [style, imgData] of Object.entries(data.images)) {
+        setImage(style, imgData, data.track.title);
+      }
+
+      showInfo(`Generated 4 styles for "${data.track.title}"`);
+
+    } catch (err) {
+      showError('Network error: ' + err.message);
+    } finally {
+      genBtn.disabled = false;
+      genBtn.innerHTML = 'Generate';
+    }
+  }
+</script>
+</body>
+</html>
