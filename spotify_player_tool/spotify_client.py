@@ -103,7 +103,38 @@ def get_playlist_tracks(url: str, client_id: str, client_secret: str) -> list[di
     return tracks
 
 
+def get_playlist_tracks_with_token(playlist_url: str, access_token: str) -> list[dict]:
+    """Fetch playlist tracks using a user OAuth access token."""
+    _, playlist_id = _parse_url(playlist_url)
+    headers  = {"Authorization": f"Bearer {access_token}"}
+    tracks: list[dict] = []
+    endpoint: str | None = f"{SPOTIFY_API_BASE}/playlists/{playlist_id}/tracks?limit=100"
+
+    while endpoint:
+        resp = requests.get(endpoint, headers=headers, timeout=15)
+        resp.raise_for_status()
+        page = resp.json()
+        for item in page.get("items", []):
+            t = item.get("track")
+            if not t or not t.get("name"):
+                continue
+            images = t.get("album", {}).get("images", [])
+            if not images:
+                continue
+            tracks.append({
+                "title":       t["name"],
+                "artist":      ", ".join(a["name"] for a in t.get("artists", [])),
+                "album":       t.get("album", {}).get("name", ""),
+                "duration_ms": t.get("duration_ms", 180_000),
+                "cover_url":   images[0]["url"],
+            })
+        endpoint = page.get("next")
+
+    return tracks
+
+
 def download_cover(url: str) -> bytes:
     resp = requests.get(url, timeout=15)
     resp.raise_for_status()
     return resp.content
+
