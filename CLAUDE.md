@@ -53,3 +53,96 @@ When adding or removing a page, the corresponding entry must be added or removed
 ## Updating lastmod
 
 When editing any URL entry, update its `<lastmod>` to the current date (`YYYY-MM-DD`). Do not bulk-update all entries unless all pages genuinely changed.
+
+---
+
+## Airtable — Maison Maysky Villas Database
+
+**Base:** Maison Maysky Base — ID `appdnkhejvx5bE6IV`
+**Table:** VILLAS — ID `tblT6NLcBsuveFrV3`
+**Current count:** ~123 villa records
+
+Use the Airtable MCP tools (`mcp__cc3a38fc-a210-46c4-8383-0b2a1265c671__*`) to read and write records. Never substitute human-readable names for IDs in API calls.
+
+### Key Fields
+
+| Field | Type | Notes |
+|---|---|---|
+| `Villa Name` | singleLineText | Primary display name |
+| `ID` | formula | Auto-generated identifier |
+| `Number` | autoNumber | Sequential number |
+| `Location` | singleSelect | Town on the Riviera (see choices below) |
+| `Status` | singleSelect | Available / Booked / On Hold / Off Market |
+| `Featured` | checkbox | Highlighted listing |
+| `Bedrooms` | number | |
+| `Bathrooms` | number | |
+| `Guests max` | number | |
+| `Total Area m²` | number | |
+| `Terrace m²` | number | |
+| `Price Low Season €/week` | currency | |
+| `Price High Season €/week` | currency | |
+| `Price` | singleSelect | Price tier bucket |
+| `Security Deposit €` | currency | |
+| `Parking Spaces` | number | |
+| `Year Built` | number | |
+| `Year Renovated` | number | |
+| `Address` | singleLineText | |
+| `Google Maps URL` | url | |
+| `Architectural Style` | singleSelect | e.g. Contemporary, Provençal, Belle Époque… |
+| `Views` | multipleSelects | e.g. Sea, Sea Panoramic, Mountains, Hills… |
+| `Exposure` | multipleSelects | Cardinal directions (North, South, South-West…) |
+| `Services Included` | multipleSelects | Daily Housekeeping, Private Chef, Concierge… |
+| `Events Allowed` | singleSelect | Yes / No / On Request |
+| `Equipements` | multipleSelects | Interior: AC, Heating, Jacuzzi, Sauna, Wi-Fi… |
+| `Building` | multipleSelects | Elevator, Wine cellar, Home cinema, Pool house… |
+| `Security` | multipleSelects | Alarm, Guard, Electric gates, Video surveillance… |
+| `Sport Facilities` | multipleSelects | Gym, Tennis, Spa, Golf, Helipad… |
+| `Exterior Spaces` | multipleSelects | Pool, Heated pool, Infinity pool, Terrace, Garden… |
+| `Title` | multilineText | EN listing title |
+| `Description` | multilineText | EN listing description |
+| `Title (FR)` / `Title FR` | multilineText | French translation of Title |
+| `Title (RU)` / `Title RU` | multilineText | Russian translation of Title |
+| `Description (FR)` / `Description FR` | multilineText | French translation |
+| `Description (RU)` / `Description RU` | multilineText | Russian translation |
+| `Notes` | multilineText | Internal notes |
+| `Gallery` | multipleAttachments | Photos |
+| `PDF` | multipleAttachments | Brochure PDF |
+
+Several formula fields (`Equipements (formatted)`, `Building (formatted)`, `Security (formatted)`, `Sport Facilities (formatted)`, `Exterior Spaces (formatted)`, `Description (truncated)`, `photo_count`) are computed automatically — do not write to them.
+
+### Select Field Choices
+
+**Location** (singleSelect)
+Menton, Roquebrune-Cap-Martin, Monaco / Monte-Carlo, Cap-d'Ail, Èze-sur-Mer, Beaulieu-sur-Mer, Saint-Jean-Cap-Ferrat, Villefranche-sur-Mer, Nice, Saint-Laurent-du-Var, Cagnes-sur-Mer, Villeneuve-Loubet, Antibes, Juan-les-Pins, Cap d'Antibes, Golfe-Juan, Vallauris, Cannes, Mougins, Biot, Vence, Saint-Paul-de-Vence, Grasse, Tourrettes-sur-Loup, Saint-Tropez, Èze, Théoule-sur-Mer, Ramatuelle
+
+**Status** (singleSelect): `Available` · `Booked` · `On Hold` · `Off Market`
+
+**Price** (singleSelect — tier buckets): `up to €20k` · `€20k–30k` · `€30k–50k` · `€50k–100k` · `€100k–150k` · `€150k–250k` · `€250k+`
+
+**Events Allowed** (singleSelect): `Yes` · `No` · `On Request`
+
+**Architectural Style** (singleSelect — partial list): Contemporary, Provençal, Belle Époque, Mediterranean, Modern Minimalist, Modern, Minimalist, Classic, Traditional, Renovated, Luxury, Neo-Provençal, Château, Waterfront Domain, Provençal Bastide, Architectural Masterpiece, Contemporary Mediterranean, and many more.
+
+**Views** (multipleSelects — partial list): Sea, Sea view, Sea Panoramic, Mountains, Hills, Hills Panoramic, Countryside, Garden, Forest, Port, Panoramic, Waterfront, Monaco, Bay of Cannes, Lerins Islands, Cap d'Antibes.
+
+**Exposure** (multipleSelects): North, North-East, East, South-East, South, South-West, West, North-West.
+
+**Services Included** (multipleSelects): Daily Housekeeping, Private Chef, Concierge, Security, Gardener, Pool Service, Laundry, Chef, Breakfast, Yoga instructor, Butler, Daily Cleaning, Chauffeur, Night Security.
+
+**Equipements** (multipleSelects — interior): Air conditioning, Heating, Fireplace, Internet / Wi-Fi, Smart house, Spa bath, Jacuzzi, Sauna, Hammam, Furnished, TV, Washing machine, Dryer, Safe, King size bed, Electric vehicle charging, Lift, and more.
+
+**Building** (multipleSelects): Elevator, Access for disabled people, Fiber optics, Home cinema, Wine cellar, Private cinema, Pool house.
+
+**Security** (multipleSelects): Alarm, Safe, Digicode, Guard, Interphone, Electric gates, Armored door, Video surveillance, Security guard, Gated estate.
+
+**Sport Facilities** (multipleSelects): Gym, Tennis, Sauna, Spa, Ping-pong, Playground, Golf, Lawn bowls, Steam room, Jacuzzi, Massage room, Helipad.
+
+**Exterior Spaces** (multipleSelects): Garden, Patio, Barbeque, Barbecue, Pool, Swimming pool, Heated pool, Infinity pool, Terrace, Rooftop terrace, Pool house, Direct sea access, Fountain, Irrigation, Heliport, Pétanque court.
+
+### Working with Records
+
+When reading records, use `fieldIds` to limit response size. When writing singleSelect/multipleSelects values, pass the plain string name (e.g. `"Available"`), not the choice object. Before filtering on a select field without knowing the choice name, call `get_table_schema` to retrieve the choice IDs.
+
+To filter Active listings: filter `Status` = `"Available"`.
+
+Pagination: if the response includes a `nextCursor`, pass it as `cursor` in the next call to retrieve the remaining records.
