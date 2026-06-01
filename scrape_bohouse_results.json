@@ -1,0 +1,547 @@
+[
+  {
+    "name": "Villa Juno, Les Marres — Ramatuelle",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/juno",
+    "error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate is not yet valid (_ssl.c:1016)>"
+  },
+  {
+    "name": "Villa Smash",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/smash",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/smash",
+      "title": "Smash",
+      "description": "Bienvenue dans cette élégante propriété provençale au cœur même du village de Saint-Tropez. Cette charmante maison de quatre chambres et quatre salles de bains offre un cadre de vie au sein de cette destination emblématique de la Côte d'Azur. Son emplacement privilégié vous permet de profiter de la proximité immédiate du centre-ville, du port pitto...",
+      "guests": 8,
+      "bedrooms": 4,
+      "bathrooms": 4,
+      "surface_m2": 280,
+      "villa_path": "0BmcaNMQVDPwJaJgKgNo"
+    },
+    "photo_count": 25
+  },
+  {
+    "name": "Villa Rian, Ramatuelle",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/ramatuelle/villas/rian",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/ramatuelle/villas/rian",
+      "title": "Balagan",
+      "description": "Bienvenue dans cette luxueuse villa de 360 m2 à Ramatuelle, située à la frontière de Saint-Tropez, offrant une retraite exquise dans un cadre idyllique. Avec son agencement spacieux, la villa dispose de six chambres opulentes, chacune accompagnée de sa propre salle de bain privée, garantissant le plus grand confort et la plus grande intimité à ses ...",
+      "guests": 12,
+      "bedrooms": 6,
+      "bathrooms": 6,
+      "surface_m2": 2000,
+      "villa_path": "HDGfzYmpaWyax0wq3Cxt"
+    },
+    "photo_count": 41
+  },
+  {
+    "name": "Villa Marres, Ramatuelle",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/ramatuelle/villas/marres",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/ramatuelle/villas/marres",
+      "title": "Marres",
+      "description": "Découvrez cette somptueuse propriété contemporaine, idéalement nichée entre le village de Saint-Tropez et les plages dorées de Ramatuelle. Depuis cette villa, vous bénéficierez d'une vue à couper le souffle sur la baie de Pampelonne et les vignobles ondulants. L'étage principal, baigné de lumière, abrite la luxueuse chambre de maître, dotée d'une t...",
+      "guests": 12,
+      "bedrooms": 6,
+      "bathrooms": 6,
+      "surface_m2": 4000,
+      "villa_path": "g1t39K2QaoDvYiQphCrc"
+    },
+    "photo_count": 47
+  },
+  {
+    "name": "Villa Moulin des Graniers, Saint-Tropez",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/moulin-des-graniers",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/moulin-des-graniers",
+      "title": "Moulin des Graniers",
+      "description": "Superbe villa avec un emplacement unique très proche du centre-ville et de la plage des Graniers.A l'origine l'un des deux moulins de Saint-Tropez, la Villa Moulin des Graniers surplombe toute la baie de Graniers, la Citadelle et le golfe de Saint Tropez, offrant une très belle vue à 360 °.La villa de plus de 350 m², offre un grand salo...",
+      "guests": 10,
+      "bedrooms": 5,
+      "bathrooms": 5,
+      "surface_m2": 2000,
+      "villa_path": "YVs4qj4hTOdWauvZ1Qqq"
+    },
+    "photo_count": 64
+  },
+  {
+    "name": "Villa Les Lices",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/les-lices",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/les-lices",
+      "title": "Les Lices",
+      "description": "La villa Les Lices, située dans le prestigieux domaine des parcs de Saint-Tropez, est une luxueuse propriété qui s'étend sur une superficie de 520 m², nichée au cœur d'un terrain verdoyant de 3700 m². Cette demeure élégante et raffinée a été conçue pour offrir confort, luxe et intimité.À l'intérieur, le salon spacieux et lumineux est l'endr...",
+      "guests": 14,
+      "bedrooms": 7,
+      "bathrooms": 7,
+      "surface_m2": 3700,
+      "villa_path": "kwmmw6fygThcbDTyDybi"
+    },
+    "photo_count": 43
+  },
+  {
+    "name": "Villa Cap Taillat, Saint-Tropez",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/ramatuelle/villas/taillat",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/ramatuelle/villas/taillat",
+      "title": "Cap Taillat",
+      "description": "Magnifique villa Moderne composée de 9 chambres en suite, dans le centre de Saint-Tropez à quelques pas de la Place des Lices.La villa dispose d'une salle de cinema, d'un jacuzzi sur le toit, d'une piscine chauffée et d'un pool house....",
+      "guests": 18,
+      "bedrooms": 9,
+      "bathrooms": 9,
+      "surface_m2": 2000,
+      "villa_path": "0krrVUu0gUVpyM5DdBH5"
+    },
+    "photo_count": 17
+  },
+  {
+    "name": "Villa Velar (Parenthèse Tropézienne), Saint-Tropez",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/velar",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/velar",
+      "title": "Velar",
+      "description": "Située à quelques pas de la plage des Canoubiers, la Villa Parenthèse Tropézienne se trouve dans l’un des quartiers les plus prisés de Saint-Tropez. Nichée au cœur d’un parc paysager de 4 200 m², cette propriété d’exception offre 470 m² de confort raffiné avec 9 chambres, des pièces baignées de lumière, une cuisine italienne haut de gamme, une cave...",
+      "guests": 18,
+      "bedrooms": 9,
+      "bathrooms": 9,
+      "surface_m2": 4200,
+      "villa_path": "B1xlsse7PxRF4od8AlYC"
+    },
+    "photo_count": 18
+  },
+  {
+    "name": "Villa Deso, Ramatuelle",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/ramatuelle/villas/deso",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/ramatuelle/villas/deso",
+      "title": "Deso",
+      "description": "Découvrez cette splendide propriété, s'étendant sur un vaste terrain et harmonieusement aménagé. La propriété est astucieusement divisée en deux villas distinctes : la première, accueille quatre chambres spacieuses et élégamment décorées, tandis que la seconde, tout aussi charmante, en abrite deux.A l'extérieur, une magnifique piscine chauf...",
+      "guests": 12,
+      "bedrooms": 6,
+      "bathrooms": 6,
+      "surface_m2": 5000,
+      "villa_path": "ijEcPmlFtDVn6MzyFY7s"
+    },
+    "photo_count": 36
+  },
+  {
+    "name": "Villa Lys de Mer",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/lys-de-mer",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/lys-de-mer",
+      "title": "Lys de Mer",
+      "description": "Découvrez Lys de Mer, une villa d’exception nichée au Salins, véritable havre de paix les pieds dans l’eau. Offrant un accès direct et privilégié à la mer, cette propriété majestueuse s’étend sur un domaine paysager de 8 000 m², où luxe et nature s’entrelacent harmonieusement.Désormais dotée de 11 chambres et 11 salles de bain, la villa acc...",
+      "guests": 20,
+      "bedrooms": 11,
+      "bathrooms": 11,
+      "surface_m2": 8000,
+      "villa_path": "ItMCZu8SKmwX51QBAdJg"
+    },
+    "photo_count": 28
+  },
+  {
+    "name": "Villa Hipanema",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/hipanema",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/hipanema",
+      "title": "Hipanema",
+      "description": "Découvrez cette splendide villa, un véritable joyau situé dans le quartier prisé des Salins. Érigée sur deux niveaux, cette demeure se distingue par sa décoration raffinée et élégante, offrant un cadre luxueux et accueillant. La villa comprend des espaces de vie spacieux et lumineux, idéaux pour se détendre et profiter de moments inoubliables en fa...",
+      "guests": 16,
+      "bedrooms": 8,
+      "bathrooms": 8,
+      "surface_m2": 2500,
+      "villa_path": ""
+    },
+    "photo_count": 0
+  },
+  {
+    "name": "Villa Canoubwest, Baie des Canoubiers",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/canoubwest",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/canoubwest",
+      "title": "Canoubwest",
+      "description": "Nichée dans l’un des quartiers les plus exclusifs de Saint-Tropez, la Villa Canoubwest offre une combinaison rare d’intimité, de raffinement et de beauté naturelle spectaculaire. Voisine de la légendaire résidence de Brigitte Bardot, icône qui a transformé Saint-Tropez en destination prisée du jet-set international, cette somptueuse propriété en bo...",
+      "guests": 16,
+      "bedrooms": 8,
+      "bathrooms": 8,
+      "surface_m2": 8000,
+      "villa_path": "mPyQYUlgCL9qF4WfVmvi"
+    },
+    "photo_count": 40
+  },
+  {
+    "name": "Villa Le Pin, Saint-Tropez",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/le-pin",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/le-pin",
+      "title": "Pin",
+      "description": "Cette magnifique villa, dotée de 6 chambres spacieuses, chacune accompagnée de sa propre salle de bain, est un véritable bijou. Son design à la fois provençal et élégant offre un confort inégalé et une atmosphère accueillante. La cuisine, entièrement équipée est parfaite pour les amateurs de cuisine ou pour des dîners intimes préparés par un chef p...",
+      "guests": 12,
+      "bedrooms": 6,
+      "bathrooms": 6,
+      "surface_m2": 10000,
+      "villa_path": "jTJG4hpNFAPwUPD4u0Jo"
+    },
+    "photo_count": 38
+  },
+  {
+    "name": "Villa Noon, Saint-Tropez",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/noon",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/noon",
+      "title": "Noon",
+      "description": "Cette magnifique villa neuve est située à proximité du centre ville et de la plage. Elle dispose d'un jardin paysagé aux touches méditerranéennes.La villa possède 5 chambres en suite dont une magnifique chambre de maître à l'étage. Le vaste séjour lumineux est équipé de grandes baies vitrées qui permettent de bénéficier d'une luminosité naturel...",
+      "guests": 10,
+      "bedrooms": 5,
+      "bathrooms": 5,
+      "surface_m2": 1000,
+      "villa_path": "V73WR0dCeZSF9vfn2qZl"
+    },
+    "photo_count": 27
+  },
+  {
+    "name": "Villa Salins",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/salins",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/salins",
+      "title": "Salins",
+      "description": "Élégante et contemporaine, cette villa exceptionnelle repose au cœur de vignobles, à quelques pas seulement de la légendaire plage des Salins, offrant un accès piéton privilégié en à peine 10 minutes.Cette résidence somptueuse, d'une envergure de 430m2, présente un équilibre harmonieux entre modernité et sérénité. Les 6 chambres, chacune accomp...",
+      "guests": 12,
+      "bedrooms": 6,
+      "bathrooms": 6,
+      "surface_m2": 3700,
+      "villa_path": "MWdsIWGrCTilSTrU0h31"
+    },
+    "photo_count": 42
+  },
+  {
+    "name": "Villa Pierre Plantée",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/pierre-plantee",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/pierre-plantee",
+      "title": "Pierre Plantée",
+      "description": "Superbe Villa contemporaine d'environ 600m2 habitables offrant huit chambres. La propriété est répartie sur trois niveaux et présente des finitions et du mobilier haut de gamme.Au rez de jardin, l'entrée ouvre sur de généreux et lumineux volumes.D'un côté, la cuisine toute équipée ainsi que la salle à manger, de l'autre un séjour présentant un ...",
+      "guests": 16,
+      "bedrooms": 8,
+      "bathrooms": 8,
+      "surface_m2": 2200,
+      "villa_path": "xUm5OGlZiawzecLWfhQO"
+    },
+    "photo_count": 49
+  },
+  {
+    "name": "Les Carles — Modern Estate, Saint-Tropez",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/carles",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/carles",
+      "title": "Les Carles",
+      "description": "Cette propriété moderne, érigée en 2021, bénéficie d'une vue imprenable sur le pittoresque village de Saint Tropez. Elle se situe à seulement 5 minutes en voiture des célèbres plages de Pampelonne et à 15 minutes à pied du cœur de Saint Tropez.L'habitation principale s'étend sur une superficie totale de 687 m², incluant le sous-sol et le po...",
+      "guests": 22,
+      "bedrooms": 11,
+      "bathrooms": 11,
+      "surface_m2": 6234,
+      "villa_path": "eirmcLFAkLzJSTbiN8NO"
+    },
+    "photo_count": 49
+  },
+  {
+    "name": "Villa Saphyr, Ramatuelle",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/ramatuelle/villas/saphyr",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/ramatuelle/villas/saphyr",
+      "title": "Saphyr",
+      "description": "Nichée dans l'écrin prestigieux du Boulevard Patch à Ramatuelle, la villa Saphyr se révèle comme une oasis de luxe et de sérénité à seulement cinq minutes de marche des plages emblématiques de Pampelonne. Cette résidence somptueuse est conçue pour sublimer l'expérience de la vie méditerranéenne, avec ses cinq chambres et autant de salles de bain, p...",
+      "guests": 10,
+      "bedrooms": 5,
+      "bathrooms": 5,
+      "surface_m2": 1500,
+      "villa_path": "SvPH8tyWQodXulUvoJnB"
+    },
+    "photo_count": 23
+  },
+  {
+    "name": "Villa Ama, Ramatuelle",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/ramatuelle/villas/ama",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/ramatuelle/villas/ama",
+      "title": "Ama",
+      "description": "Cette magnifique villa contemporaine, s'étendant sur une généreuse surface de 500 m2, dévoile une résidence d'exception avec ses 7 chambres et 7 salles de bains, offrant une vue panoramique incomparable sur la majestueuse baie de Pampelonne et ses plages mythiques. Nichée au cœur d'un parc paysager aux essences méditerranéennes soigneusement sélect...",
+      "guests": 14,
+      "bedrooms": 7,
+      "bathrooms": 7,
+      "surface_m2": 10000,
+      "villa_path": "PtqtpbXlLT38B3NKpFa1"
+    },
+    "photo_count": 45
+  },
+  {
+    "name": "Villa Alberel",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/alberel",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/alberel",
+      "title": "Alberel",
+      "description": "Située au cœur du village de Saint-Tropez, découvrez cette splendide villa à quelques pas de la  Place des Lices, où l'effervescence du marché se mêle à l'histoire, et du Port de Saint-Tropez, cette demeure est une invitation au luxe discret.Elle s'ouvre sur cinq chambres, chacune dotée d'une salle de bains privative, garantissant intimité ...",
+      "guests": 10,
+      "bedrooms": 5,
+      "bathrooms": 5,
+      "surface_m2": 1650,
+      "villa_path": "QtFnkvldrtocjm4vaKut"
+    },
+    "photo_count": 14
+  },
+  {
+    "name": "Villa Bellevue",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/bellevue",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/bellevue",
+      "title": "Bellevue",
+      "description": "Sise sur les hauteurs emblématiques de Saint-Tropez, cette villa de prestige est l'incarnation même de la grâce méditerranéenne. S'étendant majestueusement sur 600 m², elle est enveloppée par un écrin verdoyant de 5000 m².L'intérieur, tout aussi impressionnant, vous révèle sept chambres minutieusement décorées, chacune avec sa salle de bain...",
+      "guests": 14,
+      "bedrooms": 7,
+      "bathrooms": 7,
+      "surface_m2": 5000,
+      "villa_path": "ElT9KW56v4Of8ws1EIld"
+    },
+    "photo_count": 49
+  },
+  {
+    "name": "Villa Bellazard, Saint-Tropez",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/bellazard",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/bellazard",
+      "title": "Bellazard",
+      "description": "Bienvenue dans une villa d'exception qui marie luxe et proximité, une perle rare à la location, idéalement située à deux pas du cœur vibrant de Saint-Tropez. Ce chef-d'œuvre architectural, offrant des vues panoramiques sur la Baie des Canoubiers, déploie son élégance sur deux niveaux.Découvrez le sommet du raffinement à travers les 7 chambr...",
+      "guests": 14,
+      "bedrooms": 7,
+      "bathrooms": 7,
+      "surface_m2": 5500,
+      "villa_path": "YXiL65q27D81D5uqQDSj"
+    },
+    "photo_count": 21
+  },
+  {
+    "name": "Villa Alba, Ramatuelle",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/alba",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/alba",
+      "title": "Alba",
+      "description": "Située à seulement 2 km du centre-ville de Saint-Tropez et à 5 minutes en voiture des célèbres plages de Pampelonne, la villa Alba est une luxueuse propriété entièrement rénovée de 500 m², nichée au cœur d'un terrain de 5000 m². Offrant un cadre de vie exceptionnel, cette villa conjugue élégance et modernité, dans un écrin de verdure, pour une expé...",
+      "guests": 12,
+      "bedrooms": 6,
+      "bathrooms": 6,
+      "surface_m2": 5000,
+      "villa_path": "OZXsGaIo22N6Ut11ZEJ1"
+    },
+    "photo_count": 35
+  },
+  {
+    "name": "Villa Rangali, Saint-Tropez",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/rangali",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/rangali",
+      "title": "Rangali",
+      "description": "Située dans un emplacement privilégi��, à seulement 5 minutes à pied de la place des Lices, cette villa neuve de 400m2 se dresse majestueusement sur un vaste terrain plat et luxuriant de 1500 m2, au sein d'un domaine fermé et exclusif, garantissant intimité et sécurité.La villa se distingue par son architecture moderne et élégante. Elle est comp...",
+      "guests": 10,
+      "bedrooms": 5,
+      "bathrooms": 5,
+      "surface_m2": 1500,
+      "villa_path": "2AGCcUAyUmV85CwPGoBM"
+    },
+    "photo_count": 33
+  },
+  {
+    "name": "Villa Water's Edge, Les Parcs de Saint-Tropez",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/wateredge",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/wateredge",
+      "title": "Water's Edge",
+      "description": "Nichée dans le prestigieux domaine des Parcs de Saint-Tropez, la Villa Water’s Edge est un joyau rare en bord de mer, offrant un luxe absolu, une intimité préservée et une élégance naturelle. Avec un accès direct à la mer, un héliport privé et une gamme complète de services haut de gamme, cette propriété d'exception a été conçue pour les voyageurs ...",
+      "guests": 12,
+      "bedrooms": 6,
+      "bathrooms": 6,
+      "surface_m2": 5154,
+      "villa_path": "IYG118Kulc85lU0J6jtX"
+    },
+    "photo_count": 35
+  },
+  {
+    "name": "Villa La Plage, Saint-Tropez",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/ramatuelle/villas/la-plage",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/ramatuelle/villas/la-plage",
+      "title": "La Plage",
+      "description": "Idéalement située à seulement 300 mètres à pied de la plage de la Bouillabaisse, cette magnifique villa allie confort, élégance et praticité.Elle se compose de 5 chambres spacieuses, chacune disposant de sa propre salle de bain privative pour un maximum d'intimité. Trois d'entre elles offrent un accès direct au jardin. La cuisine moderne et...",
+      "guests": 10,
+      "bedrooms": 5,
+      "bathrooms": 5,
+      "surface_m2": 1250,
+      "villa_path": "TLf67u4P9VJsn8sN50rc"
+    },
+    "photo_count": 49
+  },
+  {
+    "name": "Villa Peninsula",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/peninsula-1",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/peninsula-1",
+      "title": "Peninsula",
+      "description": "Située au cœur des prestigieux Parcs de Saint-Tropez, découvrez une villa somptueuse qui se dévoile sur un vaste terrain de 5000m2, un véritable écrin de verdure et de tranquillité. Chaque moment passé ici est une invitation à la contemplation grâce à une vue panoramique à 180° sur la majestueuse baie de Saint-Tropez, promettant des couchers de sol...",
+      "guests": 8,
+      "bedrooms": 4,
+      "bathrooms": 4,
+      "surface_m2": 5000,
+      "villa_path": "mRApO4B6xEqnRqH8zmCB"
+    },
+    "photo_count": 30
+  },
+  {
+    "name": "Villa Agape",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/agape",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/agape",
+      "title": "Agapé",
+      "description": "Nichée au cœur des prestigieux Parcs de Saint-Tropez, la villa Agapé incarne l’élégance et le raffinement méditerranéen. Entièrement repensée pour la saison 2026, elle offre désormais près de 580 m² d’espaces intérieur, combinant confort moderne, design épuré et atmosphère sereine.La propriété compte désormais sept chambres avec salles de b...",
+      "guests": 14,
+      "bedrooms": 7,
+      "bathrooms": 7,
+      "surface_m2": 5000,
+      "villa_path": "nemn45XggeWf8I1psHk2"
+    },
+    "photo_count": 33
+  },
+  {
+    "name": "Villa Carles",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/carles",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/carles",
+      "title": "Les Carles",
+      "description": "Cette propriété moderne, érigée en 2021, bénéficie d'une vue imprenable sur le pittoresque village de Saint Tropez. Elle se situe à seulement 5 minutes en voiture des célèbres plages de Pampelonne et à 15 minutes à pied du cœur de Saint Tropez.L'habitation principale s'étend sur une superficie totale de 687 m², incluant le sous-sol et le po...",
+      "guests": 22,
+      "bedrooms": 11,
+      "bathrooms": 11,
+      "surface_m2": 6234,
+      "villa_path": "eirmcLFAkLzJSTbiN8NO"
+    },
+    "photo_count": 49
+  },
+  {
+    "name": "Villa Amandiers, Ramatuelle",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/ramatuelle/villas/amandiers",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/ramatuelle/villas/amandiers",
+      "title": "Amandiers",
+      "description": "Superbe propriété de luxe située à Ramatuelle, à proximité des plages de Pampelonne et à seulement 10 minutes du village de Saint-Tropez. La villa se compose d’une maison principale avec trois chambres (dont une suite principale de 70 m²) et de deux chambres en sous-sol. Une maison d’amis comprend une chambre double. La villa dispose également d’un...",
+      "guests": 12,
+      "bedrooms": 6,
+      "bathrooms": 6,
+      "surface_m2": 18000,
+      "villa_path": "B4NaJq2ECpVt7dtdOkT8"
+    },
+    "photo_count": 37
+  },
+  {
+    "name": "Villa Ariel (Ramatuelle)",
+    "url": "https://bo-house.com/en/villas/ariel/",
+    "data": {
+      "url": "https://bo-house.com/en/villas/ariel/",
+      "title": "Ariel",
+      "description": "Located in Ramatuelle, Villa Ariel stands as a true sanctuary, blending elegance and comfort. Capable of accommodating up to 6 guests, this residence boasts three refined bedrooms and three bathrooms, each opening onto delightful outdoor spaces. Picture yourself savoring a meal in the summer dining room, accompanied by the gentle Azurian breeze, tr...",
+      "guests": 0,
+      "bedrooms": 0,
+      "bathrooms": 0,
+      "surface_m2": null,
+      "villa_path": "3gmUi7yAvuBScooI2PQi"
+    },
+    "photo_count": 27
+  },
+  {
+    "name": "Villa Eucleia, Saint-Tropez",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/eucleia",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/eucleia",
+      "title": "Eucleia",
+      "description": "À quelques pas de la mythique place des Lices, la Villa Eucléia émerge majestueusement au cœur d'un vignoble paisible, offrant un sanctuaire pour ceux en quête d'une escapade inoubliable entre proches. Cette magnifique bastide provençale de 450 m2 est l'incarnation parfaite du luxe raffiné, enveloppée dans une atmosphère chaleureuse et élégante. Of...",
+      "guests": 14,
+      "bedrooms": 7,
+      "bathrooms": 7,
+      "surface_m2": 4000,
+      "villa_path": "RaeRm4uwFlrR0pkhUHWf"
+    },
+    "photo_count": 40
+  },
+  {
+    "name": "Villa Lyla, Quartier du Pinet — Saint-Tropez",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/lyla",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/villas/lyla",
+      "title": "Lyla",
+      "description": "Découvrez la Villa Lyla, une toute nouvelle résidence de prestige idéalement située dans le quartier exclusif du Pinet, à seulement 1,5 km du centre animé de Saint-Tropez. Véritable bijou architectural, elle offre 6 somptueuses chambres avec salles de bain attenantes, de vastes espaces de réception comprenant un salon élégant, une salle à manger ra...",
+      "guests": 12,
+      "bedrooms": 6,
+      "bathrooms": 6,
+      "surface_m2": 1800,
+      "villa_path": "UWrh4XnZjc4Tnsgu1kq0"
+    },
+    "photo_count": 46
+  },
+  {
+    "name": "Villa Loum (Ramatuelle)",
+    "url": "https://bo-house.com/destinations/saint-tropez/ramatuelle/villas/loum",
+    "data": {
+      "url": "https://bo-house.com/destinations/saint-tropez/ramatuelle/villas/loum",
+      "title": "Loum",
+      "description": "Ideally nestled in a tranquil environment with exceptional panoramic views of the surrounding countryside, Villa Loum is a remarkable contemporary property. Located just minutes away from the iconic Pampelonne Beach, this luxurious villa seamlessly blends elegance, comfort, and high-end features.The property boasts a spacious, light-filled ...",
+      "guests": 0,
+      "bedrooms": 0,
+      "bathrooms": 0,
+      "surface_m2": null,
+      "villa_path": "281XEw58hFGPpJQehFwq"
+    },
+    "photo_count": 30
+  },
+  {
+    "name": "Villa Pacific (Ramatuelle)",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/ramatuelle/villas/pacific",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/ramatuelle/villas/pacific",
+      "title": "Pacific",
+      "description": "Nichée au cœur du domaine de l’Escalet, cette superbe villa contemporaine offre un cadre idyllique avec une vue mer à couper le souffle.Dès l’entrée, un vaste espace de vie baigné de lumière vous accueille, composé d’un élégant salon, d’une salle à manger conviviale et d’une cuisine entièrement équipée ouverte sur l’extérieur.La suite princ...",
+      "guests": 10,
+      "bedrooms": 5,
+      "bathrooms": 5,
+      "surface_m2": null,
+      "villa_path": "wLeyzHPNGGwvx3d0b7eU"
+    },
+    "photo_count": 59
+  },
+  {
+    "name": "Villa Bleu Rama, Ramatuelle",
+    "url": "https://bo-house.com/fr/destinations/saint-tropez/ramatuelle/villas/bleu-rama",
+    "data": {
+      "url": "https://bo-house.com/fr/destinations/saint-tropez/ramatuelle/villas/bleu-rama",
+      "title": "Bleu Rama",
+      "description": "Idéalement nichée au cœur du prestigieux domaine de la Quessine à Ramatuelle, la Villa Bleu Rama incarne l’élégance et la quiétude. Avec une superficie habitable de 460 m², cette propriété exceptionnelle offre des prestations haut de gamme, un cadre idyllique et une vue à couper le souffle sur la mer Méditerranée.La villa se compose de 5 ch...",
+      "guests": 10,
+      "bedrooms": 5,
+      "bathrooms": 5,
+      "surface_m2": 6700,
+      "villa_path": "JvLGYhHJ93v0a3lCS1rr"
+    },
+    "photo_count": 45
+  },
+  {
+    "name": "Villa Beausoleil (Ramatuelle)",
+    "url": "https://bo-house.com/destinations/saint-tropez/ramatuelle/villas/beausoleil",
+    "data": {
+      "url": "https://bo-house.com/destinations/saint-tropez/ramatuelle/villas/beausoleil",
+      "title": "Beausoleil",
+      "description": "Dive into the opulence of this splendid villa nestled in the heart of the vineyards of Ramatuelle. This property offers both comfort and total tranquility within an enchanting setting. With its four beautifully appointed bedrooms and three bathrooms, this residence proves to be the ideal retreat for family vacations or intimate gatherings. Each spa...",
+      "guests": 0,
+      "bedrooms": 0,
+      "bathrooms": 0,
+      "surface_m2": null,
+      "villa_path": "oXE6JsQsa1Dy5c8PN9ht"
+    },
+    "photo_count": 27
+  }
+]
