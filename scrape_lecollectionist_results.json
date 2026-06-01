@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Villa Garoupa",
+    "url": "https://www.lecollectionist.com/fr/location-luxe/villa-garoupa-cap-d-antibes",
+    "slug": "villa-garoupa-cap-d-antibes",
+    "bedrooms": 6,
+    "bathrooms": 6,
+    "guests": 12,
+    "surface_m2": 330,
+    "photo_count": 25
+  },
+  {
+    "name": "Château Fiora, Cannes",
+    "url": "https://www.lecollectionist.com/fr/location-luxe/chateau-fiora-cannes",
+    "slug": "chateau-fiora-cannes",
+    "bedrooms": 9,
+    "bathrooms": 8,
+    "guests": 18,
+    "surface_m2": 480,
+    "photo_count": 25
+  },
+  {
+    "name": "Domaine Valoria, Théoule-sur-Mer",
+    "url": "https://www.lecollectionist.com/fr/location-luxe/domaine-valoria-cannes",
+    "slug": "domaine-valoria-cannes",
+    "bedrooms": 7,
+    "bathrooms": 8,
+    "guests": 14,
+    "surface_m2": 1000,
+    "photo_count": 25
+  },
+  {
+    "name": "Villa Terrea, Cannes",
+    "url": "https://www.lecollectionist.com/fr/location-luxe/villa-terrea-cannes",
+    "slug": "villa-terrea-cannes",
+    "bedrooms": 5,
+    "bathrooms": 5,
+    "guests": 10,
+    "surface_m2": 290,
+    "photo_count": 25
+  },
+  {
+    "name": "Villa Pacifae",
+    "url": "https://www.lecollectionist.com/fr/location-luxe/villa-pacifae-cap-d-antibes",
+    "slug": "villa-pacifae-cap-d-antibes",
+    "bedrooms": 5,
+    "bathrooms": 6,
+    "guests": 10,
+    "surface_m2": 300,
+    "photo_count": 16
+  },
+  {
+    "name": "Villa Dalya",
+    "url": "https://www.lecollectionist.com/fr/location-luxe/villa-dalya-mougins",
+    "slug": "villa-dalya-mougins",
+    "bedrooms": 7,
+    "bathrooms": 6,
+    "guests": 14,
+    "surface_m2": 450,
+    "photo_count": 25
+  }
+]
