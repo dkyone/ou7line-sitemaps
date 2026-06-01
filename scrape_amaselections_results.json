@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Villa Sandry",
+    "url": "https://amaselections.com/france/holiday-villa-rentals-south-of-france/cap-dantibes/villa-sandry",
+    "slug": "villa-sandry",
+    "bedrooms": 6,
+    "bathrooms": 6.5,
+    "guests": 12,
+    "house_sq": 350,
+    "photo_count": 54
+  },
+  {
+    "name": "Villa Des Pins",
+    "url": "https://amaselections.com/france/holiday-villa-rentals-south-of-france/cap-dantibes/villa-des-pins",
+    "slug": "villa-des-pins",
+    "bedrooms": 5,
+    "bathrooms": 5.5,
+    "guests": 10,
+    "house_sq": 400,
+    "photo_count": 33
+  },
+  {
+    "name": "Cap Est Retreat",
+    "url": "https://amaselections.com/france/holiday-villa-rentals-south-of-france/cap-dantibes/cap-est-retreat",
+    "slug": "cap-est-retreat",
+    "bedrooms": 7,
+    "bathrooms": 7.5,
+    "guests": 14,
+    "house_sq": 360,
+    "photo_count": 34
+  }
+]

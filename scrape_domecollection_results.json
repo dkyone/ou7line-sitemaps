@@ -1,0 +1,56 @@
+[
+  {
+    "name": "Art de Vivre N°5, Ramatuelle",
+    "url": "https://dome-collection.com/hebergement/art-de-vivre/",
+    "bedrooms": 8,
+    "bathrooms": 8,
+    "guests": 14,
+    "surface_m2": 550,
+    "photo_count": 43
+  },
+  {
+    "name": "Riviera Secrète N°8, Saint-Tropez",
+    "url": "https://dome-collection.com/hebergement/riviera-secrete/",
+    "bedrooms": 10,
+    "bathrooms": 10,
+    "guests": 20,
+    "surface_m2": 1000,
+    "photo_count": 37
+  },
+  {
+    "name": "Suspension N°10, Golfe de Saint-Tropez",
+    "url": "https://dome-collection.com/hebergement/suspension-n10/",
+    "bedrooms": 6,
+    "bathrooms": 6,
+    "guests": 16,
+    "surface_m2": 650,
+    "photo_count": 27
+  },
+  {
+    "name": "Les Jours Heureux N°2, Golfe de Saint-Tropez",
+    "url": "https://dome-collection.com/hebergement/les-jours-heureux/",
+    "bedrooms": 8,
+    "bathrooms": 7,
+    "guests": 17,
+    "surface_m2": 450,
+    "photo_count": 70
+  },
+  {
+    "name": "Etreinte du Sud N°9, Pampelonne Bay",
+    "url": "https://dome-collection.com/hebergement/etrinte-du-sud-n9/",
+    "bedrooms": 6,
+    "bathrooms": 8,
+    "guests": 15,
+    "surface_m2": 500,
+    "photo_count": 11
+  },
+  {
+    "name": "Promesse N°6, Les Salins — Saint-Tropez",
+    "url": "https://dome-collection.com/hebergement/promesse/",
+    "bedrooms": 11,
+    "bathrooms": 7,
+    "guests": 20,
+    "surface_m2": 500,
+    "photo_count": 23
+  }
+]
