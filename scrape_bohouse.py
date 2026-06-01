@@ -115,13 +115,18 @@ def scrape_page(url):
 
     if villa_path:
         seen = set()
-        for m in re.finditer(r'bh2\.imgix\.net/' + re.escape(villa_path) + r'/([A-Za-z0-9]+\.jpeg)', html):
-            filename = m.group(1)
-            if filename not in seen:
-                seen.add(filename)
-                result['photos'].append(
-                    f'https://bh2.imgix.net/{villa_path}/{filename}?auto=format&q=85&w=1920'
-                )
+        # Capture full signed URL (including s= signature required by imgix)
+        pattern = r'(https://bh2\.imgix\.net/' + re.escape(villa_path) + r'/[A-Za-z0-9]+\.jpeg[^"\'\\s]*)'
+        for m in re.finditer(pattern, html):
+            full_url = m.group(1).rstrip('\\')
+            # Use high-quality params but keep the signature
+            base = full_url.split('?')[0]
+            sig_m = re.search(r'[&?]s=([a-f0-9]+)', full_url)
+            sig = sig_m.group(1) if sig_m else ''
+            if base not in seen:
+                seen.add(base)
+                photo_url = f'{base}?auto=format&q=85&w=1920&s={sig}' if sig else full_url
+                result['photos'].append(photo_url)
 
     result['villa_path'] = villa_path
     return result
