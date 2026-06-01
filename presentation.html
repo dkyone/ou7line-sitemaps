@@ -143,17 +143,8 @@ function saveToken() {
 // ── fetch record ─────────────────────────────────────────────────────────────
 async function fetchRecord(id) {
   const token = getToken();
-  const fields = [
-    'Villa Name','Location','Status','Bedrooms','Bathrooms','Guests max',
-    'Total Area m²','Terrace m²','Price Low Season €/week','Price High Season €/week',
-    'Security Deposit €','Description','Views','Exposure','Exterior Spaces',
-    'Equipements','Building','Sport Facilities','Services Included',
-    'Architectural Style','Year Built','Year Renovated','Parking Spaces',
-    'Events Allowed','Gallery'
-  ].map(f => 'fields[]=' + encodeURIComponent(f)).join('&');
-
   const resp = await fetch(
-    `https://api.airtable.com/v0/${BASE}/${TABLE}/${id}?${fields}`,
+    `https://api.airtable.com/v0/${BASE}/${TABLE}/${id}`,
     { headers: { 'Authorization': 'Bearer ' + token } }
   );
   if (resp.status === 401) { localStorage.removeItem('mm_token'); showTokenSetup(); return null; }
