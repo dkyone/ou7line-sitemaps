@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """
 Scraper for bo-house.com -> Airtable
-Extracts: title, description, bedrooms, bathrooms, guests, photos, surface area
+Photos: download from imgix (signed URL) -> upload to Cloudinary -> store in Gallery
+SSL verification disabled for bo-house.com (cert issue in this environment)
 """
 
 import os
 import re
 import json
 import time
+import ssl
 import urllib.request
 import urllib.parse
 import urllib.error
@@ -16,6 +18,13 @@ from bs4 import BeautifulSoup
 AIRTABLE_TOKEN = os.environ.get('AIRTABLE_TOKEN', 'YOUR_AIRTABLE_TOKEN_HERE')
 AIRTABLE_BASE = 'appdnkhejvx5bE6IV'
 AIRTABLE_TABLE = 'tblT6NLcBsuveFrV3'
+CLOUDINARY_CLOUD = os.environ.get('CLOUDINARY_CLOUD', 'dmnly140t')
+CLOUDINARY_PRESET = 'maison-maysky'
+
+# SSL context that skips certificate verification (for bo-house.com)
+NO_VERIFY_CTX = ssl.create_default_context()
+NO_VERIFY_CTX.check_hostname = False
+NO_VERIFY_CTX.verify_mode = ssl.CERT_NONE
 
 HTTP_HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
@@ -29,10 +38,44 @@ AIRTABLE_HEADERS = {
 }
 
 
-def http_get(url, headers=None):
-    h = {**HTTP_HEADERS, **(headers or {})}
+def http_get_nossl(url, extra_headers=None):
+    h = {**HTTP_HEADERS, **(extra_headers or {})}
     req = urllib.request.Request(url, headers=h)
-    return urllib.request.urlopen(req, timeout=30).read().decode('utf-8')
+    return urllib.request.urlopen(req, timeout=30, context=NO_VERIFY_CTX).read()
+
+
+def download_image(url):
+    """Download image bytes from imgix with bo-house Referer."""
+    req = urllib.request.Request(url, headers={
+        'User-Agent': HTTP_HEADERS['User-Agent'],
+        'Referer': 'https://bo-house.com/',
+        'Accept': 'image/webp,image/apng,image/*,*/*;q=0.8',
+    })
+    return urllib.request.urlopen(req, timeout=30).read()
+
+
+def upload_to_cloudinary(img_bytes):
+    """Upload image bytes to Cloudinary via multipart, return delivery URL."""
+    boundary = 'CloudinaryBoundary1234'
+    body = (
+        f'--{boundary}\r\n'
+        f'Content-Disposition: form-data; name="upload_preset"\r\n\r\n'
+        f'{CLOUDINARY_PRESET}\r\n'
+        f'--{boundary}\r\n'
+        f'Content-Disposition: form-data; name="file"; filename="photo.jpg"\r\n'
+        f'Content-Type: image/jpeg\r\n\r\n'
+    ).encode('utf-8') + img_bytes + f'\r\n--{boundary}--\r\n'.encode('utf-8')
+
+    req = urllib.request.Request(
+        f'https://api.cloudinary.com/v1_1/{CLOUDINARY_CLOUD}/image/upload',
+        data=body,
+        headers={'Content-Type': f'multipart/form-data; boundary={boundary}'},
+        method='POST',
+    )
+    result = json.loads(urllib.request.urlopen(req, timeout=60).read().decode('utf-8'))
+    if not result.get('public_id'):
+        raise ValueError(f'Cloudinary error: {result}')
+    return f'https://res.cloudinary.com/{CLOUDINARY_CLOUD}/image/upload/q_auto,f_auto/{result["public_id"]}'
 
 
 def airtable_patch(record_id, fields):
@@ -65,47 +108,11 @@ def extract_source_url(notes):
     return m.group(1).strip() if m else None
 
 
-def scrape_page(url):
-    html = http_get(url)
+def scrape_photos(url):
+    """Scrape villa page (SSL-bypass) and return list of exact signed imgix URLs."""
+    html = http_get_nossl(url).decode('utf-8')
     soup = BeautifulSoup(html, 'lxml')
-    result = {'url': url, 'photos': []}
 
-    # --- Title (h1) ---
-    h1 = soup.find('h1')
-    result['title'] = h1.text.strip() if h1 else ''
-
-    # --- Description ---
-    desc_el = soup.find(class_='desktop-description')
-    result['description'] = desc_el.text.strip() if desc_el else ''
-
-    # --- Guests (property-resume div) ---
-    resume = soup.find(class_='property-resume')
-    guests = 0
-    if resume:
-        m = re.search(r'(\d+)\s+voyageurs?', resume.text, re.I)
-        if m:
-            guests = int(m.group(1))
-    result['guests'] = guests
-
-    # --- Features: bedrooms, bathrooms, surface ---
-    bedrooms = bathrooms = surface_m2 = 0
-    for item in soup.find_all(class_='features-list_item'):
-        text = item.text.strip()
-        m = re.match(r'(\d+)\s+chambres?', text, re.I)
-        if m:
-            bedrooms = int(m.group(1))
-        m = re.match(r'(\d+)\s+salles?\s+de\s+bains?', text, re.I)
-        if m:
-            bathrooms = int(m.group(1))
-        m = re.match(r'([\d\s]+)\s*m²\s+de\s+surface', text, re.I)
-        if m:
-            surface_m2 = int(m.group(1).replace(' ', ''))
-    result['bedrooms'] = bedrooms
-    result['bathrooms'] = bathrooms
-    result['surface_m2'] = surface_m2 if surface_m2 else None
-
-    # --- Photos: villa-specific from bh2.imgix.net ---
-    # Extract villa path from og:image
     og = soup.find('meta', property='og:image')
     villa_path = ''
     if og:
@@ -113,23 +120,21 @@ def scrape_page(url):
         if m:
             villa_path = m.group(1)
 
-    if villa_path:
-        seen = set()
-        # Capture full signed URL (including s= signature required by imgix)
-        pattern = r'(https://bh2\.imgix\.net/' + re.escape(villa_path) + r'/[A-Za-z0-9]+\.jpeg[^"\'\\s]*)'
-        for m in re.finditer(pattern, html):
-            full_url = m.group(1).rstrip('\\')
-            # Use high-quality params but keep the signature
-            base = full_url.split('?')[0]
-            sig_m = re.search(r'[&?]s=([a-f0-9]+)', full_url)
-            sig = sig_m.group(1) if sig_m else ''
-            if base not in seen:
-                seen.add(base)
-                photo_url = f'{base}?auto=format&q=85&w=1920&s={sig}' if sig else full_url
-                result['photos'].append(photo_url)
+    if not villa_path:
+        return []
 
-    result['villa_path'] = villa_path
-    return result
+    seen_bases = set()
+    photos = []
+    # Match full signed URL from the page HTML
+    pattern = r'(https://bh2[.]imgix[.]net/' + re.escape(villa_path) + r'/[A-Za-z0-9]+[.]jpeg[?][^\s"\']+)'
+    for m in re.finditer(pattern, html):
+        full_url = m.group(1)
+        base = full_url.split('?')[0]
+        if base not in seen_bases:
+            seen_bases.add(base)
+            photos.append(full_url)
+
+    return photos
 
 
 def main():
@@ -141,53 +146,49 @@ def main():
         notes = r['fields'].get('Notes', '')
         url = extract_source_url(notes)
         has_gallery = bool(r['fields'].get('Gallery'))
-        if url:
+        if url and not has_gallery:
             to_process.append({
                 'id': r['id'],
                 'name': r['fields'].get('Villa Name', ''),
                 'url': url,
-                'has_gallery': has_gallery,
             })
 
-    print(f'Found {len(to_process)} records with bo-house.com URLs')
+    print(f'Found {len(to_process)} bo-house villas without gallery')
     print()
 
     results = []
     for i, item in enumerate(to_process):
         print(f'[{i+1}/{len(to_process)}] {item["name"]}')
         try:
-            data = scrape_page(item['url'])
+            signed_urls = scrape_photos(item['url'])
+            if not signed_urls:
+                print(f'  ⚠️  No photos found on page')
+                results.append({'name': item['name'], 'error': 'no photos'})
+                continue
 
-            fields = {}
-            if data['description']:
-                fields['Description'] = data['description']
-            if data['bedrooms']:
-                fields['Bedrooms'] = data['bedrooms']
-            if data['guests']:
-                fields['Guests max'] = data['guests']
-            if data['bathrooms']:
-                fields['Bathrooms'] = data['bathrooms']
-            if data['surface_m2']:
-                fields['Total Area m²'] = data['surface_m2']
+            print(f'  -> Found {len(signed_urls)} signed imgix URLs')
 
-            # Photos: only add if villa doesn't have gallery yet
-            if data['photos'] and not item['has_gallery']:
-                fields['Gallery'] = [{'url': u} for u in data['photos']]
-                print(f'  -> {len(data["photos"])} photos')
+            cloud_urls = []
+            for j, img_url in enumerate(signed_urls):
+                try:
+                    img_bytes = download_image(img_url)
+                    cloud_url = upload_to_cloudinary(img_bytes)
+                    cloud_urls.append({'url': cloud_url})
+                    print(f'  -> [{j+1}/{len(signed_urls)}] uploaded ✓', end='\r')
+                    time.sleep(0.3)
+                except Exception as e:
+                    print(f'\n  ⚠️  Photo {j+1} failed: {e}')
 
-            print(f'  -> {data["bedrooms"]} BR / {data["bathrooms"]} BA / {data["guests"]} guests')
-            print(f'  -> Surface: {data["surface_m2"]} m²')
-            print(f'  -> Description: {data["description"][:80]}...' if data['description'] else '  -> No description')
-
-            if fields:
-                airtable_patch(item['id'], fields)
-                print(f'  ✅ Updated {len(fields)} fields')
+            print()
+            if cloud_urls:
+                airtable_patch(item['id'], {'Gallery': cloud_urls})
+                print(f'  ✅ Gallery: {len(cloud_urls)}/{len(signed_urls)} photos saved')
+                results.append({'name': item['name'], 'url': item['url'],
+                                'uploaded': len(cloud_urls), 'total': len(signed_urls)})
             else:
-                print(f'  ⚠️  No data to update')
+                print(f'  ❌ All photos failed')
+                results.append({'name': item['name'], 'error': 'all photos failed'})
 
-            results.append({'name': item['name'], 'url': item['url'], 'data': {
-                k: v for k, v in data.items() if k != 'photos'
-            }, 'photo_count': len(data['photos'])})
             time.sleep(1)
 
         except Exception as e:
@@ -196,10 +197,10 @@ def main():
             time.sleep(2)
         print()
 
-    with open('/home/user/ou7line-sitemaps/scrape_bohouse_results.json', 'w', encoding='utf-8') as f:
+    with open('/home/user/ou7line-sitemaps/scrape_bohouse_photos_results.json', 'w', encoding='utf-8') as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
-    print(f'\nDone! Results saved to scrape_bohouse_results.json')
-    print(f'Processed: {len([r for r in results if "data" in r])}/{len(to_process)}')
+    print(f'\nDone!')
+    print(f'OK: {len([r for r in results if "uploaded" in r])}/{len(to_process)}')
     print(f'Errors: {len([r for r in results if "error" in r])}')
 
 
