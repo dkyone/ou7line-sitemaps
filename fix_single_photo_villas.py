@@ -92,19 +92,22 @@ def photos_lecollectionist(slug):
 # --- valmontriviera.com ---
 def photos_valmontriviera(url):
     html = http_get(url)
-    # Find villa-specific numeric ID from photo filenames
-    m = re.search(r'(\d{5,})-0-\d+\.(?:jpg|jpeg|webp)', html)
-    if not m:
+    # Extract all full-res WP photos (no thumbnail size suffix)
+    all_photos = list(dict.fromkeys(
+        p for p in re.findall(
+            r'https?://www\.valmontriviera\.com/wp-content/uploads/[^\s"\']+\.(?:jpg|jpeg|webp)', html, re.I
+        ) if not re.search(r'-\d+x\d+\.', p)
+    ))
+    if not all_photos:
         return []
-    villa_id = m.group(1)
-    seen = set()
-    photos = []
-    for p in re.findall(r'https?://www\.valmontriviera\.com/wp-content/uploads/[^\s"\']+\.(?:jpg|jpeg|webp)', html, re.I):
-        if villa_id in p and not re.search(r'-\d+x\d+\.', p):
-            if p not in seen:
-                seen.add(p)
-                photos.append(p)
-    return photos
+    # Find the most frequent villa ID (4+ digits before -0 or -1 in filename)
+    from collections import Counter
+    ids = re.findall(r'-(\d{4,})-\d+\.(?:jpg|jpeg|webp)', ' '.join(all_photos))
+    if not ids:
+        return all_photos
+    villa_id = Counter(ids).most_common(1)[0][0]
+    villa_photos = [p for p in all_photos if f'-{villa_id}-' in p]
+    return villa_photos if villa_photos else all_photos
 
 
 VILLAS = [
