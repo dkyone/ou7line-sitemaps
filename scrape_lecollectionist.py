@@ -17,7 +17,6 @@ AIRTABLE_BASE = 'appdnkhejvx5bE6IV'
 AIRTABLE_TABLE = 'tblT6NLcBsuveFrV3'
 
 API_BASE = 'https://api.lecollectionist.com/api/v1'
-CDN_BASE = 'https://cdn.lecollectionist.com/__collectionist__/'
 
 HTTP_HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
@@ -80,7 +79,7 @@ def get_photos(house_id):
         for item in items:
             rel_url = (item.get('attributes') or {}).get('url', '')
             if rel_url and not (item.get('attributes') or {}).get('hidden', False):
-                photos.append(CDN_BASE + rel_url)
+                photos.append(rel_url)
         meta = resp.get('meta') or {}
         if page >= meta.get('last_page', 1):
             break

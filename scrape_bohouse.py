@@ -113,12 +113,9 @@ def scrape_photos(url):
     html = http_get_nossl(url).decode('utf-8')
     soup = BeautifulSoup(html, 'lxml')
 
-    og = soup.find('meta', property='og:image')
-    villa_path = ''
-    if og:
-        m = re.search(r'bh2\.imgix\.net/([A-Za-z0-9]+)/', og.get('content', ''))
-        if m:
-            villa_path = m.group(1)
+    from collections import Counter
+    paths = re.findall(r'bh2\.imgix\.net/([A-Za-z0-9]+)/', html)
+    villa_path = Counter(paths).most_common(1)[0][0] if paths else ''
 
     if not villa_path:
         return []
