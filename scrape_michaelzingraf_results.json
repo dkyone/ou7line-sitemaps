@@ -1,0 +1,55 @@
+[
+  {
+    "name": "Cap d'Antibes Sea View Villa (MZILO1625)",
+    "url": "https://www.michaelzingraf.com/en/cap-dantibes-sea-view-villa-85988552",
+    "error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate is not yet valid (_ssl.c:1016)>"
+  },
+  {
+    "name": "Cannes Californie Provençal-Style Villa (MZILO1132)",
+    "url": "https://www.michaelzingraf.com/en/cannes-californie-provencal-style-villa-659224",
+    "bedrooms": 5,
+    "bathrooms": 0,
+    "surface_m2": 350,
+    "photo_count": 13
+  },
+  {
+    "name": "Villa Lush — Pampelonne Beach (MZILOST304)",
+    "url": "https://www.michaelzingraf.com/en/villa-lush-ramatuelle-pampelonne-beach-exceptional-sea-view-1255773",
+    "bedrooms": 6,
+    "bathrooms": 0,
+    "surface_m2": 650,
+    "photo_count": 11
+  },
+  {
+    "name": "Cannes Sublime Villa with Sea View (MZILO1498)",
+    "url": "https://www.michaelzingraf.com/en/cannes-sublime-villa-with-sea-view-5922140",
+    "bedrooms": 6,
+    "bathrooms": 0,
+    "surface_m2": 350,
+    "photo_count": 16
+  },
+  {
+    "name": "An Iconic French Riviera Estate (MZILOSJ2361)",
+    "url": "https://www.michaelzingraf.com/en/an-iconic-french-riviera-estate-86680305",
+    "bedrooms": 11,
+    "bathrooms": 0,
+    "surface_m2": 1700,
+    "photo_count": 2
+  },
+  {
+    "name": "Modern Villa with Sea View Close to Cannes (MZILO1615)",
+    "url": "https://www.michaelzingraf.com/en/close-to-cannes-superb-villa-with-sea-view-85658052",
+    "bedrooms": 5,
+    "bathrooms": 0,
+    "surface_m2": 490,
+    "photo_count": 31
+  },
+  {
+    "name": "Château Diter — Exceptional Renaissance Estate, Grasse Hills",
+    "url": "https://www.michaelzingraf.com/en/chateau-diter-an-exceptional-estate-on-the-french-riviera-13-suites-85952189",
+    "bedrooms": 13,
+    "bathrooms": 0,
+    "surface_m2": 1500,
+    "photo_count": 11
+  }
+]
