@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Villa Presentation</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0ede8;color:#1a1a1a;overscroll-behavior:none}
+
+/* --- LOADING / ERROR --- */
+.screen{display:flex;align-items:center;justify-content:center;min-height:100vh;flex-direction:column;gap:12px;padding:32px;text-align:center}
+.spinner{width:40px;height:40px;border:3px solid #e0dbd4;border-top-color:#8b7355;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-icon{font-size:48px}
+.error-msg{font-size:16px;color:#666;line-height:1.5}
+.btn-retry{margin-top:16px;padding:12px 24px;background:#8b7355;color:white;border:none;border-radius:24px;font-size:15px;cursor:pointer}
+
+/* --- GALLERY --- */
+.gallery{position:relative;width:100%;aspect-ratio:16/10;overflow:hidden;background:#000;flex-shrink:0}
+.gallery-track{display:flex;height:100%;will-change:transform;transition:transform .32s cubic-bezier(.4,0,.2,1)}
+.gallery-slide{flex:0 0 100%;height:100%;position:relative}
+.gallery-slide img{width:100%;height:100%;object-fit:cover;display:block}
+.gallery-prev,.gallery-next{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.35);backdrop-filter:blur(4px);color:#fff;border:none;border-radius:50%;width:40px;height:40px;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;transition:background .2s}
+.gallery-prev{left:12px}.gallery-next{right:12px}
+.gallery-prev:active,.gallery-next:active{background:rgba(0,0,0,.6)}
+.gallery-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:10}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;transition:all .2s}
+.dot.active{background:#fff;width:18px;border-radius:3px}
+.photo-counter{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);color:#fff;border-radius:20px;padding:4px 10px;font-size:12px;font-weight:500;z-index:10}
+.status-badge{position:absolute;top:12px;left:12px;border-radius:20px;padding:5px 12px;font-size:12px;font-weight:600;z-index:10;text-transform:uppercase;letter-spacing:.04em}
+.status-available{background:#22c55e;color:#fff}
+.status-booked{background:#ef4444;color:#fff}
+.status-hold{background:#f59e0b;color:#fff}
+.status-offmarket{background:#6b7280;color:#fff}
+
+/* --- CONTENT --- */
+.content{padding:20px 16px 40px}
+.villa-name{font-size:26px;font-weight:800;line-height:1.2;letter-spacing:-.02em}
+.location-row{display:flex;align-items:center;gap:6px;margin-top:6px;color:#8b7355;font-size:14px;font-weight:500}
+.location-row svg{flex-shrink:0}
+
+/* --- SPECS --- */
+.specs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:18px 0}
+.spec{background:#fff;border-radius:14px;padding:12px 6px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.spec-icon{font-size:20px;line-height:1}
+.spec-val{font-size:19px;font-weight:800;margin-top:4px;line-height:1}
+.spec-lbl{font-size:10px;color:#999;margin-top:3px;text-transform:uppercase;letter-spacing:.04em}
+
+/* --- PRICE --- */
+.price-section{margin:18px 0}
+.section-title{font-size:11px;font-weight:700;color:#8b7355;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+.price-cards{display:flex;gap:10px}
+.price-card{flex:1;background:#fff;border-radius:14px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.price-label{font-size:11px;color:#999;margin-bottom:4px}
+.price-val{font-size:18px;font-weight:800;color:#1a1a1a}
+.price-unit{font-size:11px;color:#999;font-weight:400}
+.deposit{margin-top:10px;background:#fff;border-radius:14px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.deposit-label{font-size:13px;color:#666}
+.deposit-val{font-size:15px;font-weight:700}
+
+/* --- DESCRIPTION --- */
+.desc-section{margin:18px 0}
+.desc-text{font-size:14px;line-height:1.7;color:#444}
+.desc-text.clamped{display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+.read-more{background:none;border:none;color:#8b7355;font-size:13px;font-weight:600;cursor:pointer;padding:6px 0;display:block;margin-top:6px}
+
+/* --- TAGS --- */
+.tags-section{margin:18px 0}
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.tag{background:#fff;border-radius:20px;padding:6px 13px;font-size:13px;color:#555;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+
+/* --- META --- */
+.meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:18px 0}
+.meta-card{background:#fff;border-radius:14px;padding:12px 14px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.meta-label{font-size:11px;color:#999;margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em}
+.meta-val{font-size:14px;font-weight:600}
+
+/* --- TOKEN SETUP --- */
+.token-screen{padding:32px 24px;text-align:center}
+.token-logo{font-size:48px;margin-bottom:16px}
+.token-title{font-size:22px;font-weight:800;margin-bottom:8px}
+.token-sub{font-size:14px;color:#666;line-height:1.5;margin-bottom:24px}
+.token-input{width:100%;padding:14px 16px;border:2px solid #e0dbd4;border-radius:14px;font-size:14px;font-family:monospace;margin-bottom:12px;outline:none;background:#fff}
+.token-input:focus{border-color:#8b7355}
+.token-btn{width:100%;padding:14px;background:#8b7355;color:#fff;border:none;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer}
+.token-hint{font-size:12px;color:#aaa;margin-top:12px;line-height:1.5}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script>
+const BASE = 'appdnkhejvx5bE6IV';
+const TABLE = 'tblT6NLcBsuveFrV3';
+
+const $ = id => document.getElementById(id);
+const root = document.getElementById('root');
+
+// ── helpers ──────────────────────────────────────────────────────────────────
+function qs(name) { return new URLSearchParams(location.search).get(name); }
+
+function getToken() { return localStorage.getItem('mm_token'); }
+
+function fmtPrice(v) {
+  if (!v) return null;
+  return '€ ' + Number(v).toLocaleString('fr-FR');
+}
+
+function statusClass(s) {
+  if (!s) return '';
+  const m = {Available:'status-available',Booked:'status-booked','On Hold':'status-hold','Off Market':'status-offmarket'};
+  return m[s] || '';
+}
+
+function statusLabel(s) {
+  const m = {Available:'Disponible',Booked:'Réservé','On Hold':'En attente','Off Market':'Hors marché'};
+  return m[s] || s;
+}
+
+// ── token setup screen ────────────────────────────────────────────────────────
+function showTokenSetup() {
+  root.innerHTML = `
+    <div class="content token-screen">
+      <div class="token-logo">🏠</div>
+      <div class="token-title">Maison Maysky</div>
+      <div class="token-sub">Entrez votre token Airtable pour accéder aux présentations de villas.</div>
+      <input id="tkInput" class="token-input" type="password" placeholder="patXXXXXXXXXXXXXX.XXX..." autocomplete="off"/>
+      <button class="token-btn" onclick="saveToken()">Enregistrer</button>
+      <div class="token-hint">Le token est stocké uniquement sur cet appareil.<br>Paramètres Airtable → Developer Hub → Personal access tokens</div>
+    </div>`;
+  const inp = $('tkInput');
+  inp && inp.focus();
+}
+
+function saveToken() {
+  const v = ($('tkInput').value || '').trim();
+  if (!v.startsWith('pat')) { alert('Token invalide (doit commencer par "pat")'); return; }
+  localStorage.setItem('mm_token', v);
+  init();
+}
+
+// ── fetch record ─────────────────────────────────────────────────────────────
+async function fetchRecord(id) {
+  const token = getToken();
+  const fields = [
+    'Villa Name','Location','Status','Bedrooms','Bathrooms','Guests max',
+    'Total Area m²','Terrace m²','Price Low Season €/week','Price High Season €/week',
+    'Security Deposit €','Description','Views','Exposure','Exterior Spaces',
+    'Equipements','Building','Sport Facilities','Services Included',
+    'Architectural Style','Year Built','Year Renovated','Parking Spaces',
+    'Events Allowed','Gallery'
+  ].map(f => 'fields[]=' + encodeURIComponent(f)).join('&');
+
+  const resp = await fetch(
+    `https://api.airtable.com/v0/${BASE}/${TABLE}/${id}?${fields}`,
+    { headers: { 'Authorization': 'Bearer ' + token } }
+  );
+  if (resp.status === 401) { localStorage.removeItem('mm_token'); showTokenSetup(); return null; }
+  if (!resp.ok) throw new Error('HTTP ' + resp.status);
+  return (await resp.json()).fields;
+}
+
+// ── gallery component ─────────────────────────────────────────────────────────
+function makeGallery(attachments, status) {
+  const photos = (attachments || []).map(a => {
+    // prefer large thumbnail for speed, fall back to original
+    return (a.thumbnails && a.thumbnails.large) ? a.thumbnails.large.url : a.url;
+  });
+  if (!photos.length) return '';
+
+  const statusHtml = status ? `<div class="status-badge ${statusClass(status)}">${statusLabel(status)}</div>` : '';
+  const dotsHtml = photos.length > 1
+    ? `<div class="gallery-dots">${photos.map((_,i)=>`<div class="dot${i===0?' active':''}" data-idx="${i}"></div>`).join('')}</div>`
+    : '';
+  const navHtml = photos.length > 1
+    ? `<button class="gallery-prev" aria-label="prev">‹</button><button class="gallery-next" aria-label="next">›</button>` : '';
+
+  return `
+    <div class="gallery" id="gal">
+      ${statusHtml}
+      <div class="gallery-track" id="galTrack">
+        ${photos.map(u=>`<div class="gallery-slide"><img src="${u}" loading="lazy" decoding="async"/></div>`).join('')}
+      </div>
+      ${navHtml}
+      ${dotsHtml}
+      <div class="photo-counter" id="galCnt">1 / ${photos.length}</div>
+    </div>`;
+}
+
+function initGallery(total) {
+  if (total <= 1) return;
+  let cur = 0;
+  const track = $('galTrack');
+  const cnt   = $('galCnt');
+  const dots  = () => document.querySelectorAll('.dot');
+
+  function goTo(i) {
+    cur = ((i % total) + total) % total;
+    track.style.transform = `translateX(-${cur * 100}%)`;
+    if (cnt) cnt.textContent = `${cur+1} / ${total}`;
+    dots().forEach((d,j)=>d.classList.toggle('active', j===cur));
+  }
+
+  document.querySelector('.gallery-prev')?.addEventListener('click', ()=>goTo(cur-1));
+  document.querySelector('.gallery-next')?.addEventListener('click', ()=>goTo(cur+1));
+  document.querySelectorAll('.dot').forEach(d=>d.addEventListener('click',()=>goTo(+d.dataset.idx)));
+
+  // swipe
+  let sx=0, sy=0;
+  track.addEventListener('touchstart', e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
+  track.addEventListener('touchend', e=>{
+    const dx=e.changedTouches[0].clientX-sx, dy=e.changedTouches[0].clientY-sy;
+    if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>36) goTo(cur+(dx<0?1:-1));
+  },{passive:true});
+}
+
+// ── render ────────────────────────────────────────────────────────────────────
+function render(f) {
+  const photos = f['Gallery'] || [];
+
+  const specItems = [
+    {icon:'🛏',val:f['Bedrooms']||'—',lbl:'Chambres'},
+    {icon:'🚿',val:f['Bathrooms']||'—',lbl:'SDB'},
+    {icon:'👥',val:f['Guests max']||'—',lbl:'Voyageurs'},
+    {icon:'📐',val:f['Total Area m²']||'—',lbl:'m²'},
+  ];
+
+  const priceLow  = fmtPrice(f['Price Low Season €/week']);
+  const priceHigh = fmtPrice(f['Price High Season €/week']);
+  const deposit   = fmtPrice(f['Security Deposit €']);
+
+  const desc = (f['Description'] || '').trim();
+  const needsClamp = desc.length > 300;
+
+  const views     = f['Views'] || [];
+  const exterior  = f['Exterior Spaces'] || [];
+  const equip     = f['Equipements'] || [];
+  const building  = f['Building'] || [];
+  const sport     = f['Sport Facilities'] || [];
+  const services  = f['Services Included'] || [];
+
+  const allTags = [
+    ...views.map(v=>'🌊 '+v),
+    ...exterior,
+    ...equip.slice(0,8),
+    ...building,
+    ...sport,
+    ...services,
+  ];
+
+  const metaItems = [
+    f['Architectural Style'] && {label:'Style',val:f['Architectural Style']},
+    f['Exposure']?.length    && {label:'Exposition',val:f['Exposure'].join(', ')},
+    f['Year Built']          && {label:'Année',val:f['Year Built']},
+    f['Year Renovated']      && {label:'Rénové',val:f['Year Renovated']},
+    f['Parking Spaces']      && {label:'Parking',val:f['Parking Spaces']+' place'+(f['Parking Spaces']>1?'s':'')},
+    f['Terrace m²']          && {label:'Terrasse',val:f['Terrace m²']+' m²'},
+    f['Events Allowed']      && {label:'Événements',val:f['Events Allowed']},
+  ].filter(Boolean);
+
+  root.innerHTML = `
+    ${makeGallery(photos, f['Status'])}
+    <div class="content">
+      <div class="villa-name">${f['Villa Name'] || 'Villa'}</div>
+      ${f['Location'] ? `<div class="location-row">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8b7355" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        ${f['Location']}
+      </div>` : ''}
+
+      <div class="specs">
+        ${specItems.map(s=>`<div class="spec"><div class="spec-icon">${s.icon}</div><div class="spec-val">${s.val}</div><div class="spec-lbl">${s.lbl}</div></div>`).join('')}
+      </div>
+
+      ${(priceLow||priceHigh||deposit) ? `
+      <div class="price-section">
+        <div class="section-title">Tarifs</div>
+        ${(priceLow||priceHigh) ? `<div class="price-cards">
+          <div class="price-card"><div class="price-label">Basse saison</div><div class="price-val">${priceLow||'—'}<span class="price-unit"> /sem</span></div></div>
+          <div class="price-card"><div class="price-label">Haute saison</div><div class="price-val">${priceHigh||'—'}<span class="price-unit"> /sem</span></div></div>
+        </div>` : ''}
+        ${deposit ? `<div class="deposit"><span class="deposit-label">Caution</span><span class="deposit-val">${deposit}</span></div>` : ''}
+      </div>` : ''}
+
+      ${desc ? `
+      <div class="desc-section">
+        <div class="section-title">Description</div>
+        <div class="desc-text${needsClamp?' clamped':''}" id="descText">${desc.replace(/\n/g,'<br>')}</div>
+        ${needsClamp ? `<button class="read-more" id="readMore" onclick="toggleDesc()">Lire la suite ▾</button>` : ''}
+      </div>` : ''}
+
+      ${allTags.length ? `
+      <div class="tags-section">
+        <div class="section-title">Équipements & Vues</div>
+        <div class="tags">${allTags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      </div>` : ''}
+
+      ${metaItems.length ? `
+      <div class="tags-section">
+        <div class="section-title">Détails</div>
+        <div class="meta-grid">
+          ${metaItems.map(m=>`<div class="meta-card"><div class="meta-label">${m.label}</div><div class="meta-val">${m.val}</div></div>`).join('')}
+        </div>
+      </div>` : ''}
+    </div>`;
+
+  initGallery(photos.length);
+}
+
+window.toggleDesc = function() {
+  const el = $('descText'), btn = $('readMore');
+  const clamped = el.classList.toggle('clamped');
+  btn.textContent = clamped ? 'Lire la suite ▾' : 'Réduire ▴';
+};
+
+// ── init ──────────────────────────────────────────────────────────────────────
+function showLoading() {
+  root.innerHTML = `<div class="screen"><div class="spinner"></div><div style="color:#888;font-size:15px">Chargement…</div></div>`;
+}
+
+function showError(msg) {
+  root.innerHTML = `<div class="screen"><div class="error-icon">⚠️</div><div class="error-msg">${msg}</div><button class="btn-retry" onclick="init()">Réessayer</button></div>`;
+}
+
+async function init() {
+  const id = qs('id');
+  if (!id) { showError('Aucun identifiant de villa fourni.<br><small>Ajoutez <code>?id=recXXX</code> à l\'URL.</small>'); return; }
+
+  if (!getToken()) { showTokenSetup(); return; }
+
+  showLoading();
+  try {
+    const fields = await fetchRecord(id);
+    if (fields) render(fields);
+  } catch(e) {
+    showError('Erreur de chargement : ' + e.message);
+  }
+}
+
+init();
+</script>
+</body>
+</html>
