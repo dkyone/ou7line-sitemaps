@@ -110,6 +110,8 @@ Use the Airtable MCP tools (`mcp__cc3a38fc-a210-46c4-8383-0b2a1265c671__*`) to r
 
 Several formula fields (`Equipements (formatted)`, `Building (formatted)`, `Security (formatted)`, `Sport Facilities (formatted)`, `Exterior Spaces (formatted)`, `Description (truncated)`, `photo_count`) are computed automatically — do not write to them.
 
+`Description (truncated)` is capped at **1000 characters** (tuned to fill the description column on page 1 of the FlexiPage PDF presentation without overflowing).
+
 ### Select Field Choices
 
 **Location** (singleSelect)
