@@ -106,11 +106,49 @@ Use the Airtable MCP tools (`mcp__cc3a38fc-a210-46c4-8383-0b2a1265c671__*`) to r
 | `Description (RU)` / `Description RU` | multilineText | Russian translation |
 | `Notes` | multilineText | Internal notes |
 | `Gallery` | multipleAttachments | Photos |
-| `PDF` | multipleAttachments | Brochure PDF |
+| `PDF` | multipleAttachments | Brochure PDF staging (cleared after Drive upload) |
+| `URL PDF` | url | `fldIFrJniAbCLCrsC` — Google Drive link to generated PDF |
+| `▶ PDF` | checkbox | `fldSX4qaGci4XrFRa` — triggers 3-language PDF generation via Google Apps Script |
+| `pdf_lock` | singleLineText | `fldN6rmI6wfAPFKvh` — distributed lock, do not write manually |
 
-Several formula fields (`Equipements (formatted)`, `Building (formatted)`, `Security (formatted)`, `Sport Facilities (formatted)`, `Exterior Spaces (formatted)`, `Description (truncated)`, `photo_count`) are computed automatically — do not write to them.
+**Multilingual text fields (auto-translated by Google Apps Script):**
 
-`Description (truncated)` is capped at **1000 characters** (tuned to fill the description column on page 1 of the FlexiPage PDF presentation without overflowing).
+| Field | Type | Notes |
+|---|---|---|
+| `Title (FR)` | multilineText | `fldmXJtyKQCmPtoL6` — French title |
+| `Title (RU)` | multilineText | `fldyP2mVnTwtlAq97` — Russian title |
+| `Description (FR)` | multilineText | `fldpGTiZnyEK3tOXb` — French description |
+| `Description (RU)` | multilineText | `fldryyVO80IwK5YSz` — Russian description |
+
+**Formula fields (computed automatically — do not write to them):**
+
+| Field | ID | Notes |
+|---|---|---|
+| `Description (truncated)` | `fldak4LCXI1OFeO43` | EN description capped at 1000 chars for FlexiPage |
+| `Description (truncated) FR` | `fldy4RXcKpt6Rb593` | FR description capped at 1000 chars for FlexiPage |
+| `Description (truncated) RU` | `fldN0cDUKSIYhD3MR` | RU description capped at 1000 chars for FlexiPage |
+| `Equipements (formatted)` | — | EN, auto-formatted from multipleSelect |
+| `Building (formatted)` | — | EN, auto-formatted from multipleSelect |
+| `Security (formatted)` | — | EN, auto-formatted from multipleSelect |
+| `Sport Facilities (formatted)` | — | EN, auto-formatted from multipleSelect |
+| `Exterior Spaces (formatted)` | — | EN, auto-formatted from multipleSelect |
+
+**Translated formatted fields (written by Google Apps Script for FR/RU PDFs):**
+
+| Field | ID | Notes |
+|---|---|---|
+| `Equipements (formatted) FR` | `fldW0g6MsQ8oZogH0` | French translation of Equipements (formatted) |
+| `Equipements (formatted) RU` | `fldFGmPNW6shj1FZx` | Russian translation |
+| `Building (formatted) FR` | `fldjcnSm4vvWtnqEL` | French translation of Building (formatted) |
+| `Building (formatted) RU` | `fldGcEjM1BHsf6BJj` | Russian translation |
+| `Security (formatted) FR` | `fldlRspFKbH9SBDl1` | French translation of Security (formatted) |
+| `Security (formatted) RU` | `fldrTYi1hzYXLJQvn` | Russian translation |
+| `Sport Facilities (formatted) FR` | `fldkoSOtYZh3TDy0i` | French translation of Sport Facilities (formatted) |
+| `Sport Facilities (formatted) RU` | `fldgehNtPyOpNvJXh` | Russian translation |
+| `Exterior Spaces (formatted) FR` | `fldIdapMYx8nYyuTb` | French translation of Exterior Spaces (formatted) |
+| `Exterior Spaces (formatted) RU` | `fldKKbFsR72YKIlaD` | Russian translation |
+
+`Description (truncated)` fields are capped at **1000 characters** (tuned to fill the description column on page 1 of the FlexiPage PDF presentation without overflowing).
 
 ### Select Field Choices
 
