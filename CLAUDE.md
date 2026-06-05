@@ -106,8 +106,10 @@ Use the Airtable MCP tools (`mcp__cc3a38fc-a210-46c4-8383-0b2a1265c671__*`) to r
 | `Description (RU)` / `Description RU` | multilineText | Russian translation |
 | `Notes` | multilineText | Internal notes |
 | `Gallery` | multipleAttachments | Photos |
-| `PDF` | multipleAttachments | Brochure PDF staging (cleared after Drive upload) |
-| `URL PDF` | url | `fldIFrJniAbCLCrsC` — Google Drive link to generated PDF |
+| `PDF EN` | multipleAttachments | `fldAuf1MJRB8CntSk` — FlexiPage staging for EN PDF (cleared after Drive upload) |
+| `PDF FR` | multipleAttachments | `fld7z659DUwj8oQkk` — FlexiPage staging for FR PDF (cleared after Drive upload) |
+| `PDF RU` | multipleAttachments | `fld7B6V3Q8Ea0RFMp` — FlexiPage staging for RU PDF (cleared after Drive upload) |
+| `PDF Folder` | url | `fld9jNb2S7dBzkPTm` — Google Drive folder link with all 3 language PDFs |
 | `▶ PDF` | checkbox | `fldSX4qaGci4XrFRa` — triggers 3-language PDF generation via Google Apps Script |
 | `pdf_lock` | singleLineText | `fldN6rmI6wfAPFKvh` — distributed lock, do not write manually |
 
