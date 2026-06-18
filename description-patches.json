@@ -1,0 +1,531 @@
+{
+  "summary": {
+    "total_records": 52,
+    "copy_en_to_fr_clear_en_ru": 22,
+    "clear_en_ru": 29,
+    "skip": 1,
+    "total_needing_action": 51
+  },
+  "patches": [
+    {
+      "id": "rec0DrePfR4MjxkUo",
+      "villa_id": "ID0107",
+      "villa_name": "Villa Gina with Tennis Court and Pool House, Cannes",
+      "en_len": 429,
+      "fr_len": 446,
+      "ru_len": 303,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (446 chars >= EN 429 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "rec0JK82wT8uhj8mq",
+      "villa_id": "ID0104",
+      "villa_name": "Villa South View with Spa and Golf Green, Cannes Heights",
+      "en_len": 987,
+      "fr_len": 677,
+      "ru_len": 438,
+      "action": "copy_en_to_fr_clear_en_ru",
+      "reason": "EN is French (987 chars), FR is shorter (677 chars)"
+    },
+    {
+      "id": "rec0fmACrdtZDMRjX",
+      "villa_id": "ID0071",
+      "villa_name": "Contemporary Villa with Lift, Saint-Jean-Cap-Ferrat",
+      "en_len": 1052,
+      "fr_len": 636,
+      "ru_len": 338,
+      "action": "copy_en_to_fr_clear_en_ru",
+      "reason": "EN is French (1052 chars), FR is shorter (636 chars)"
+    },
+    {
+      "id": "rec0lDYL3ZRVhFoE2",
+      "villa_id": "ID0120",
+      "villa_name": "Luxurious Contemporary Villa with Sea View, Cannes",
+      "en_len": 2166,
+      "fr_len": 737,
+      "ru_len": 509,
+      "action": "copy_en_to_fr_clear_en_ru",
+      "reason": "EN is French (2166 chars), FR is shorter (737 chars)"
+    },
+    {
+      "id": "rec2BqfJVBMmCYTwf",
+      "villa_id": "ID0099",
+      "villa_name": "Contemporary 1,400 m² Estate with SPA and Cinema, Cannes",
+      "en_len": 3358,
+      "fr_len": 643,
+      "ru_len": 451,
+      "action": "copy_en_to_fr_clear_en_ru",
+      "reason": "EN is French (3358 chars), FR is shorter (643 chars)"
+    },
+    {
+      "id": "rec5WJqa531zUQ9pF",
+      "villa_id": "ID0108",
+      "villa_name": "Provençal Sea-Front Villa with Rooftop Terrace, Cap d'Antibes",
+      "en_len": 684,
+      "fr_len": 222,
+      "ru_len": 232,
+      "action": "copy_en_to_fr_clear_en_ru",
+      "reason": "EN is French (684 chars), FR is shorter (222 chars)"
+    },
+    {
+      "id": "rec7HEKCfO6Qljps3",
+      "villa_id": "ID0093",
+      "villa_name": "Exceptional Property with Panoramic Sea View near Cannes, Mougins",
+      "en_len": 1765,
+      "fr_len": 293,
+      "ru_len": 195,
+      "action": "copy_en_to_fr_clear_en_ru",
+      "reason": "EN is French (1765 chars), FR is shorter (293 chars)"
+    },
+    {
+      "id": "rec8qoV2J96hDIOt0",
+      "villa_id": "ID0100",
+      "villa_name": "Elegant 5-Bedroom Neo-Provençal Villa, Cannes Californie",
+      "en_len": 986,
+      "fr_len": 225,
+      "ru_len": 168,
+      "action": "copy_en_to_fr_clear_en_ru",
+      "reason": "EN is French (986 chars), FR is shorter (225 chars)"
+    },
+    {
+      "id": "rec8qsPkTByqF7jWd",
+      "villa_id": "ID0119",
+      "villa_name": "Magnifique Contemporaine with Lerins Islands View, Cannes Heights",
+      "en_len": 924,
+      "fr_len": 239,
+      "ru_len": 220,
+      "action": "copy_en_to_fr_clear_en_ru",
+      "reason": "EN is French (924 chars), FR is shorter (239 chars)"
+    },
+    {
+      "id": "recA8iwtLrbNbe7hb",
+      "villa_id": "ID0111",
+      "villa_name": "Contemporary Prestige Villa with Panoramic Sea View, Basse Californie",
+      "en_len": 1514,
+      "fr_len": 283,
+      "ru_len": 241,
+      "action": "copy_en_to_fr_clear_en_ru",
+      "reason": "EN is French (1514 chars), FR is shorter (283 chars)"
+    },
+    {
+      "id": "recAEAJGd1HHSlfww",
+      "villa_id": "ID0114",
+      "villa_name": "Architect Villa with Cinema and Domotique on Cannes Heights, Vallauris",
+      "en_len": 1203,
+      "fr_len": 189,
+      "ru_len": 182,
+      "action": "copy_en_to_fr_clear_en_ru",
+      "reason": "EN is French (1203 chars), FR is shorter (189 chars)"
+    },
+    {
+      "id": "recC9hwpz2xTDIli9",
+      "villa_id": "ID0003",
+      "villa_name": "Magnificent Renovated Bell Tower on Cap d'Antibes",
+      "en_len": 0,
+      "fr_len": 1587,
+      "ru_len": 0,
+      "action": "skip",
+      "reason": "Already fixed (explicitly excluded)"
+    },
+    {
+      "id": "recCG1P4Z0VJNSoGR",
+      "villa_id": "ID0115",
+      "villa_name": "Exceptional Property with Sea View and Rooftop, Cannes",
+      "en_len": 529,
+      "fr_len": 247,
+      "ru_len": 207,
+      "action": "copy_en_to_fr_clear_en_ru",
+      "reason": "EN is French (529 chars), FR is shorter (247 chars)"
+    },
+    {
+      "id": "recCxmAwy7NtKDsma",
+      "villa_id": "ID0109",
+      "villa_name": "Château de Cannes — Belle Époque Estate with 11-Hectare Gardens",
+      "en_len": 690,
+      "fr_len": 690,
+      "ru_len": 595,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (690 chars >= EN 690 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "recDHbuT4NUso9PMY",
+      "villa_id": "ID0073",
+      "villa_name": "Six-Bedroom Villa with Sea Access, Cap-Ferrat",
+      "en_len": 1344,
+      "fr_len": 1350,
+      "ru_len": 1233,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (1350 chars >= EN 1344 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "recDRvvv1t3YqKelT",
+      "villa_id": "ID0110",
+      "villa_name": "Rare Contemporary Villa in Dominant Position, Cannes Californie",
+      "en_len": 458,
+      "fr_len": 459,
+      "ru_len": 428,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (459 chars >= EN 458 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "recGXpiHWHO9BKZlu",
+      "villa_id": "ID0077",
+      "villa_name": "Modern Villa with Panoramic Sea View, Villefranche Heights",
+      "en_len": 1791,
+      "fr_len": 1795,
+      "ru_len": 1668,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (1795 chars >= EN 1791 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "recGyl9R6JHe3iPCC",
+      "villa_id": "ID0089",
+      "villa_name": "Magnificent Five-Suite Villa near Mougins Village Centre",
+      "en_len": 1209,
+      "fr_len": 1215,
+      "ru_len": 1109,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (1215 chars >= EN 1209 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "recIb9JYutcRdi4O3",
+      "villa_id": "ID0105",
+      "villa_name": "Contemporary Villa with Panoramic Sea View, Cannes Croix des Gardes",
+      "en_len": 689,
+      "fr_len": 689,
+      "ru_len": 666,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (689 chars >= EN 689 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "recJm4qQh6NVIXGCQ",
+      "villa_id": "ID0082",
+      "villa_name": "Mediterranean Domain Villa with Five Suites and Service Studio, Mougins",
+      "en_len": 1606,
+      "fr_len": 1623,
+      "ru_len": 1607,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (1623 chars >= EN 1606 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "recKhtjIwQXzzQrHB",
+      "villa_id": "ID0097",
+      "villa_name": "Villa Laura — 5 Bedrooms with Panoramic Sea View, Cannes",
+      "en_len": 2698,
+      "fr_len": 2707,
+      "ru_len": 2613,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (2707 chars >= EN 2698 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "recMWDKmml1ZhLdRX",
+      "villa_id": "ID0084",
+      "villa_name": "Modern 380 m² Villa with Pool House near Mougins Old Village",
+      "en_len": 2090,
+      "fr_len": 2090,
+      "ru_len": 1931,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (2090 chars >= EN 2090 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "recMpzOw126STUSgr",
+      "villa_id": "ID0118",
+      "villa_name": "Magnificently Renovated Monastère Provençal, Cannes",
+      "en_len": 1360,
+      "fr_len": 1360,
+      "ru_len": 1215,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (1360 chars >= EN 1360 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "recNIbDqLh7OA8Y26",
+      "villa_id": "ID0081",
+      "villa_name": "Contemporary Villa at the Heart of Cap d'Èze",
+      "en_len": 611,
+      "fr_len": 616,
+      "ru_len": 601,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (616 chars >= EN 611 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "recNbKEoaWnRjx8Zd",
+      "villa_id": "ID0113",
+      "villa_name": "New Contemporary Villa with Panoramic View of Cap d'Antibes, Vallauris",
+      "en_len": 2283,
+      "fr_len": 2291,
+      "ru_len": 2282,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (2291 chars >= EN 2283 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "recOkCeKzAyPmtusg",
+      "villa_id": "ID0095",
+      "villa_name": "Provencal Villa with Panoramic Bay View, Cannes Californie",
+      "en_len": 488,
+      "fr_len": 488,
+      "ru_len": 460,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (488 chars >= EN 488 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "recVuHwoB3u1db3l8",
+      "villa_id": "ID0121",
+      "villa_name": "Contemporary Villa with Sea View, Cannes Basse Californie",
+      "en_len": 697,
+      "fr_len": 697,
+      "ru_len": 654,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (697 chars >= EN 697 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "recX2DR1bvtNOW6rT",
+      "villa_id": "ID0117",
+      "villa_name": "Villa Monica — Contemporary Villa in Super Cannes Hills",
+      "en_len": 875,
+      "fr_len": 860,
+      "ru_len": 817,
+      "action": "copy_en_to_fr_clear_en_ru",
+      "reason": "EN is French (875 chars), FR is shorter (860 chars)"
+    },
+    {
+      "id": "recYYSHIbY30t91ni",
+      "villa_id": "ID0102",
+      "villa_name": "Spectacular Contemporary Villa Facing the Lerins Islands, Super Cannes",
+      "en_len": 842,
+      "fr_len": 843,
+      "ru_len": 826,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (843 chars >= EN 842 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "recYgV8Vpqw6IoSkj",
+      "villa_id": "ID0086",
+      "villa_name": "Contemporary Villa with Panoramic View near Cannes, Mougins",
+      "en_len": 1354,
+      "fr_len": 1356,
+      "ru_len": 1249,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (1356 chars >= EN 1354 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "recZ32r2wf4VF4hqp",
+      "villa_id": "ID0074",
+      "villa_name": "Villa d'Exception, Saint-Jean-Cap-Ferrat",
+      "en_len": 1163,
+      "fr_len": 1160,
+      "ru_len": 1150,
+      "action": "copy_en_to_fr_clear_en_ru",
+      "reason": "EN is French (1163 chars), FR is shorter (1160 chars)"
+    },
+    {
+      "id": "recZa9Qw5QwEg87g7",
+      "villa_id": "ID0101",
+      "villa_name": "Domaine d'Exception Dominating the Sea, Super Cannes",
+      "en_len": 1500,
+      "fr_len": 1500,
+      "ru_len": 1454,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (1500 chars >= EN 1500 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "recbgL6zUAyFA5LHq",
+      "villa_id": "ID0083",
+      "villa_name": "Contemporary Five-Bedroom Villa near Mougins Village",
+      "en_len": 1022,
+      "fr_len": 1026,
+      "ru_len": 1065,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (1026 chars >= EN 1022 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "reccuUVFBLdnSBwz2",
+      "villa_id": "ID0103",
+      "villa_name": "Modern Hôtel Particulier-Style Villa with Sea View, Cannes Californie",
+      "en_len": 1618,
+      "fr_len": 1640,
+      "ru_len": 1504,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (1640 chars >= EN 1618 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "rechDqnyuZKzGVu4w",
+      "villa_id": "ID0072",
+      "villa_name": "Modern Villa with Panoramic Sea View, Cap-Ferrat",
+      "en_len": 388,
+      "fr_len": 389,
+      "ru_len": 339,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (389 chars >= EN 388 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "reck3Jd7lZ8L6CX8a",
+      "villa_id": "ID0098",
+      "villa_name": "Modern 640 m² Villa with Indoor & Outdoor Pools and Elevator, Vallauris",
+      "en_len": 2093,
+      "fr_len": 2096,
+      "ru_len": 1938,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (2096 chars >= EN 2093 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "reckhDhufhsUCXhRt",
+      "villa_id": "ID0085",
+      "villa_name": "Eight-Bedroom Manor with Library, Mougins",
+      "en_len": 2312,
+      "fr_len": 2343,
+      "ru_len": 2395,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (2343 chars >= EN 2312 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "recmHloSJHynYfudY",
+      "villa_id": "ID0088",
+      "villa_name": "Modern New-Build Villa with Sea View, Mougins",
+      "en_len": 3387,
+      "fr_len": 3390,
+      "ru_len": 3315,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (3390 chars >= EN 3387 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "recmt3eW0Xwrbq6eq",
+      "villa_id": "ID0096",
+      "villa_name": "Contemporary 5-Bedroom Architect Villa with Sea View, Cannes Californie",
+      "en_len": 1017,
+      "fr_len": 1015,
+      "ru_len": 994,
+      "action": "copy_en_to_fr_clear_en_ru",
+      "reason": "EN is French (1017 chars), FR is shorter (1015 chars)"
+    },
+    {
+      "id": "recnq07wfXLCUJcne",
+      "villa_id": "ID0079",
+      "villa_name": "Contemporary Villa with Panoramic Sea View, Beaulieu Heights",
+      "en_len": 410,
+      "fr_len": 418,
+      "ru_len": 392,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (418 chars >= EN 410 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "reco41lOGBcg0hi7w",
+      "villa_id": "ID0080",
+      "villa_name": "Belle Époque Villa near Beaulieu Town Centre",
+      "en_len": 1074,
+      "fr_len": 1073,
+      "ru_len": 981,
+      "action": "copy_en_to_fr_clear_en_ru",
+      "reason": "EN is French (1074 chars), FR is shorter (1073 chars)"
+    },
+    {
+      "id": "recq3lOzrSdHEZ5Ca",
+      "villa_id": "ID0092",
+      "villa_name": "Contemporary Villa with Cinema and Jacuzzi, Mougins Heights",
+      "en_len": 1510,
+      "fr_len": 1509,
+      "ru_len": 1507,
+      "action": "copy_en_to_fr_clear_en_ru",
+      "reason": "EN is French (1510 chars), FR is shorter (1509 chars)"
+    },
+    {
+      "id": "recrrP4f2jFIEW0eJ",
+      "villa_id": "ID0090",
+      "villa_name": "New Contemporary Villa with Five Suites, Mougins",
+      "en_len": 1404,
+      "fr_len": 1403,
+      "ru_len": 1381,
+      "action": "copy_en_to_fr_clear_en_ru",
+      "reason": "EN is French (1404 chars), FR is shorter (1403 chars)"
+    },
+    {
+      "id": "recv3fAv2xs1LcAGb",
+      "villa_id": "ID0112",
+      "villa_name": "Belle Contemporaine — New Villa with Hotel Services, Basse Californie",
+      "en_len": 1302,
+      "fr_len": 1299,
+      "ru_len": 1293,
+      "action": "copy_en_to_fr_clear_en_ru",
+      "reason": "EN is French (1302 chars), FR is shorter (1299 chars)"
+    },
+    {
+      "id": "recw5NasY5UD8khnQ",
+      "villa_id": "ID0087",
+      "villa_name": "Contemporary 340 m² Villa near Mougins Village",
+      "en_len": 1542,
+      "fr_len": 1541,
+      "ru_len": 1380,
+      "action": "copy_en_to_fr_clear_en_ru",
+      "reason": "EN is French (1542 chars), FR is shorter (1541 chars)"
+    },
+    {
+      "id": "recwBcPjG3h0h08T2",
+      "villa_id": "ID0075",
+      "villa_name": "Contemporary Villa with Panoramic Sea View in Private Domain, Villefranche",
+      "en_len": 1093,
+      "fr_len": 1098,
+      "ru_len": 1042,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (1098 chars >= EN 1093 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "recwbtUWTul0SWLBl",
+      "villa_id": "ID0094",
+      "villa_name": "Villa Mougins by Luxa Contemporani, Sea View",
+      "en_len": 1739,
+      "fr_len": 1737,
+      "ru_len": 1678,
+      "action": "copy_en_to_fr_clear_en_ru",
+      "reason": "EN is French (1739 chars), FR is shorter (1737 chars)"
+    },
+    {
+      "id": "recwcy8nfqXt0LQuX",
+      "villa_id": "ID0076",
+      "villa_name": "Eight-Hundred Square Metre Estate with Panoramic Sea View, Villefranche",
+      "en_len": 1042,
+      "fr_len": 1050,
+      "ru_len": 1027,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (1050 chars >= EN 1042 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "recxloNMsmJKes4mY",
+      "villa_id": "ID0106",
+      "villa_name": "New Architect Property with Spa and Cinema, Cannes Californie",
+      "en_len": 1487,
+      "fr_len": 1487,
+      "ru_len": 1366,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (1487 chars >= EN 1487 chars), clear EN and RU for re-translation"
+    },
+    {
+      "id": "reczGuirYBpDzreao",
+      "villa_id": "ID0091",
+      "villa_name": "Domain of Exception with 11 Bedrooms and Tennis Court, Mougins",
+      "en_len": 965,
+      "fr_len": 964,
+      "ru_len": 927,
+      "action": "copy_en_to_fr_clear_en_ru",
+      "reason": "EN is French (965 chars), FR is shorter (964 chars)"
+    },
+    {
+      "id": "reczMFKMteygMxJDz",
+      "villa_id": "ID0116",
+      "villa_name": "Magnificent Contemporary Villa in Dominant Position, Cannes Californie",
+      "en_len": 2515,
+      "fr_len": 2514,
+      "ru_len": 2150,
+      "action": "copy_en_to_fr_clear_en_ru",
+      "reason": "EN is French (2515 chars), FR is shorter (2514 chars)"
+    },
+    {
+      "id": "reczaT3J6jmHhrqhc",
+      "villa_id": "ID0078",
+      "villa_name": "Belle Époque Villa with Panoramic Sea View, Villefranche",
+      "en_len": 1138,
+      "fr_len": 1142,
+      "ru_len": 1015,
+      "action": "clear_en_ru",
+      "reason": "FR already has full text (1142 chars >= EN 1138 chars), clear EN and RU for re-translation"
+    }
+  ]
+}
